@@ -11,7 +11,7 @@ class ExportTest(unittest.TestCase):
         calls=[]
         def fetch(api,p):
             calls.append(p)
-            if 'meta' in p:return {'query':{'namespaces':[{'id':0}], 'rightsinfo':{'text':'Example license'}}}
+            if 'meta' in p:return {'query':{'namespaces':{'0':{'id':0}}, 'rightsinfo':{'text':'Example license'}}}
             if not p.get('gapcontinue'):return {'query':{'pages':[{'pageid':1,'title':'One','revisions':[{'revid':3,'slots':{'main':{'content':'text'}}}]}]},'continue':{'gapcontinue':'Two','continue':'gapcontinue||'}}
             return {'query':{'pages':[{'pageid':2,'title':'Two','fullurl':'https://example.test/Two'}]}}
         with tempfile.TemporaryDirectory() as d:

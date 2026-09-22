@@ -4,6 +4,8 @@ A stationary, industrial fortress holds off a dense animated zombie horde. This 
 
 ## Play
 
+[Open the live prototype](https://wiserax.github.io/zombie-tower/) · [Single-file HTML](https://wiserax.github.io/zombie-tower/Deadwood.html)
+
 - Defenses fire automatically. Tap the battlefield to focus fire for five seconds.
 - **Overcharge** (or Space) clears a large area with chained electrical impacts.
 - Toggle gun/crossbow, Tesla, and mortar batteries to compare their effects.

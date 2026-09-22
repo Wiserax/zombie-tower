@@ -69,6 +69,10 @@ export class Battlefield {
         vertexColors: true,
         roughness: 0.96,
       });
+      geo.setAttribute(
+        "aAttack",
+        new T.InstancedBufferAttribute(new Float32Array(CAP), 1),
+      );
       mat.customProgramCacheKey = () => `zombie-gait-${type}`;
       const time = { value: 0 };
       mat.onBeforeCompile = (shader) => {
@@ -76,7 +80,7 @@ export class Battlefield {
         shader.vertexShader = shader.vertexShader
           .replace(
             "#include <common>",
-            "#include <common>\nattribute float limb; attribute vec3 pivot; attribute float aPhase; attribute float aHit; uniform float uTime; varying float vHit;",
+            "#include <common>\nattribute float limb; attribute vec3 pivot; attribute float aPhase; attribute float aHit; attribute float aAttack; uniform float uTime; varying float vHit;",
           )
           .replace(
             "#include <begin_vertex>",
@@ -84,8 +88,9 @@ export class Battlefield {
     float gait=sin(uTime*${type === 1 ? "10.5" : "6.8"}+aPhase);float ang=0.;
     if(limb>0.5&&limb<2.5)ang=gait*(limb<1.5?0.48:-0.48);
     if(limb>2.5)ang=gait*(limb<3.5?-0.19:0.19);
+    if(aAttack>.5){if(limb>.5&&limb<2.5)ang*=.12;if(limb>2.5)ang=-.9+sin(uTime*7.+aPhase+(limb<3.5?0.:1.4))*.65;}
     vec3 q=transformed-pivot;transformed=pivot+vec3(q.x,q.y*cos(ang)-q.z*sin(ang),q.y*sin(ang)+q.z*cos(ang));
-    transformed.y+=abs(gait)*0.035;vHit=aHit;`,
+    transformed.y+=abs(gait)*0.035;transformed.z+=aAttack*max(0.,gait)*.08;vHit=aHit;`,
           );
         shader.fragmentShader = shader.fragmentShader
           .replace(
@@ -208,6 +213,8 @@ export class Battlefield {
         u.mesh.setMatrixAt(n, dummy.matrix);
         u.mesh.geometry.attributes.aPhase.array[n] = h.phase[i];
         u.mesh.geometry.attributes.aHit.array[n] = h.hit[i];
+        u.mesh.geometry.attributes.aAttack.array[n] =
+          h.x[i] * h.x[i] + h.z[i] * h.z[i] < 43.56 ? 1 : 0;
         this.vec.set(h.x[i], 0.7, h.z[i]);
         if (this.frustum.containsPoint(this.vec)) this.visible++;
         dummy.position.set(h.x[i] + 0.12, 0.025, h.z[i] + 0.13);
@@ -225,6 +232,7 @@ export class Battlefield {
       u.mesh.instanceMatrix.needsUpdate = true;
       u.mesh.geometry.attributes.aPhase.needsUpdate = true;
       u.mesh.geometry.attributes.aHit.needsUpdate = true;
+      u.mesh.geometry.attributes.aAttack.needsUpdate = true;
     }
     const dc = [0, 0, 0];
     for (let i = this.dead.length - 1; i >= 0; i--) {

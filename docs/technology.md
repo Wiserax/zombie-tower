@@ -21,7 +21,7 @@ Changing the language alone does not reduce draw calls, transparent overdraw, te
 
 `scripts/verify-browser.mjs` runs the actual game, not a detached particle demo. It records mean presented frame interval, frame p95, CPU simulation p95, CPU render-submission p95, alive/visible counts, draw calls, triangles and retained GPU resources. CPU render time is **not GPU execution time**.
 
-`qa/performance.json` contains the latest results and GPU identity. Tests use headless installed Chrome on an Apple M1 Max. Portrait 390×844 with touch/DPR emulation is still running on that Mac, **not a physical phone**. Initial measurements sustained approximately 60 FPS at 300/600/1,000/1,600 living zombies. At portrait size, about 350 of 600 were within the camera frustum.
+`qa/performance.json` contains the latest results and GPU identity. Tests use headless installed Chrome on an Apple M1 Max. Portrait 390×844 with touch/DPR emulation is still running on that Mac, **not a physical phone**. Initial measurements sustained approximately 60 FPS at 300/600/1,000/1,600 living zombies. At portrait size, about 300–350 of 600 were within the camera frustum.
 
 Do not infer an Android/iPhone guarantee from those results. Validate on a midrange physical device, including a several-minute heat/load run. If GPU-bound, lower resolution, shadow size and transparency before rewriting the simulation. If simulation time becomes the limit after adding full gameplay, first profile neighbor/targeting work, then assess a worker or WASM implementation against the same scene.
 
