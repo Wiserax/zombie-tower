@@ -1,4 +1,5 @@
 import * as T from "three";
+import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { Cloud } from "./cloud.js";
 const N = 2400,
   dummy = new T.Object3D(),
@@ -72,10 +73,67 @@ export class Effects {
       }),
       160,
     );
+    const scorchAlpha = new T.InstancedBufferAttribute(
+      new Float32Array(160).fill(1),
+      1,
+    );
+    this.scorch.geometry.setAttribute("aOpacity", scorchAlpha);
+    this.scorch.material.onBeforeCompile = (shader) => {
+      shader.vertexShader = shader.vertexShader
+        .replace(
+          "#include <common>",
+          "#include <common>\nattribute float aOpacity;varying float vOpacity;",
+        )
+        .replace(
+          "#include <begin_vertex>",
+          "#include <begin_vertex>\nvOpacity=aOpacity;",
+        );
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          "#include <common>",
+          "#include <common>\nvarying float vOpacity;",
+        )
+        .replace(
+          "#include <color_fragment>",
+          "#include <color_fragment>\ndiffuseColor.a*=vOpacity;",
+        );
+    };
     this.scorch.frustumCulled = false;
     this.scorch.count = 0;
     scene.add(this.scorch);
     this.scorches = [];
+    this.mesh.setColorAt(0, new T.Color(1, 1, 1));
+    this.ringMesh.setColorAt(0, new T.Color(1, 1, 1));
+    const arcs = [];
+    for (let i = 0; i < 4; i++)
+      arcs.push(
+        new T.RingGeometry(1.45, 1.55, 10, 1, (i * Math.PI) / 2 + 0.25, 1.05),
+      );
+    const reticle = mergeGeometries(arcs);
+    arcs.forEach((g) => g.dispose());
+    this.focusMarker = new T.Mesh(
+      reticle,
+      new T.MeshBasicMaterial({
+        color: 0xffdf86,
+        transparent: true,
+        opacity: 0.7,
+        depthWrite: false,
+        toneMapped: false,
+        fog: false,
+        side: T.DoubleSide,
+      }),
+    );
+    this.focusMarker.rotation.x = -Math.PI / 2;
+    this.focusMarker.visible = false;
+    scene.add(this.focusMarker);
+  }
+  focus(point, time) {
+    this.focusMarker.visible = !!point && time > 0;
+    if (!this.focusMarker.visible) return;
+    this.focusMarker.position.set(point.x, 0.07, point.z);
+    this.focusMarker.rotation.z = time * 0.4;
+    this.focusMarker.material.opacity = Math.min(1, time * 2) * 0.7;
+    this.focusMarker.scale.setScalar(1 + Math.sin(time * 5) * 0.055);
   }
   particle(x, y, z, vx, vy, vz, size, color, life = 0.6, gravity = 9) {
     const p = this.p[this.cursor++ % N];
@@ -269,9 +327,14 @@ export class Effects {
       dummy.rotation.set(-Math.PI / 2, 0, 0);
       dummy.scale.set(s.r, s.r, 1);
       dummy.updateMatrix();
-      this.scorch.setMatrixAt(count++, dummy.matrix);
+      this.scorch.setMatrixAt(count, dummy.matrix);
+      this.scorch.geometry.attributes.aOpacity.array[count++] = Math.min(
+        1,
+        s.life / 3,
+      );
     }
     this.scorch.count = count;
     this.scorch.instanceMatrix.needsUpdate = true;
+    this.scorch.geometry.attributes.aOpacity.needsUpdate = true;
   }
 }

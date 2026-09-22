@@ -1,5 +1,10 @@
 import * as T from "three";
-import { zombieGeometry, environment, fortress } from "./art.js";
+import {
+  zombieGeometry,
+  environment,
+  fortress,
+  fallenGeometry,
+} from "./art.js";
 import { CAP } from "./sim.js";
 import { Effects } from "./fx.js";
 import {
@@ -7,6 +12,8 @@ import {
   retroLandmarks,
   retroFortress,
 } from "./retro-art.js";
+import { unitMaterial } from "./unit-material.js";
+import { ImpactArt } from "./impact-art.js";
 const dummy = new T.Object3D(),
   color = new T.Color();
 export class Battlefield {
@@ -65,6 +72,12 @@ export class Battlefield {
     this.fort = fortress(this.scene);
     this.retroFort = retroFortress(this.scene);
     this.fx = new Effects(this.scene);
+    this.impacts = new ImpactArt(this.scene);
+    this.recoil = new Float32Array(4);
+    this.energy = 0;
+    this.fort.turrets.forEach((g) => {
+      g.userData.anchor = g.position.clone();
+    });
     this.units = [];
     this.corpses = [];
     this.dead = [];
@@ -79,45 +92,11 @@ export class Battlefield {
         "aHit",
         new T.InstancedBufferAttribute(new Float32Array(CAP), 1),
       );
-      const mat = new T.MeshStandardMaterial({
-        vertexColors: true,
-        roughness: 0.96,
-      });
       geo.setAttribute(
         "aAttack",
         new T.InstancedBufferAttribute(new Float32Array(CAP), 1),
       );
-      mat.customProgramCacheKey = () => `zombie-gait-${type}`;
-      const time = { value: 0 };
-      const retro = { value: 1 };
-      mat.onBeforeCompile = (shader) => {
-        shader.uniforms.uTime = time;
-        shader.uniforms.uRetro = retro;
-        shader.vertexShader = shader.vertexShader
-          .replace(
-            "#include <common>",
-            "#include <common>\nattribute float limb; attribute vec3 pivot; attribute float aPhase; attribute float aHit; attribute float aAttack; uniform float uTime; varying float vHit;",
-          )
-          .replace(
-            "#include <begin_vertex>",
-            `#include <begin_vertex>
-    float gait=sin(uTime*${type === 1 ? "10.5" : "6.8"}+aPhase);float ang=0.;
-    if(limb>0.5&&limb<2.5)ang=gait*(limb<1.5?0.48:-0.48);
-    if(limb>2.5)ang=gait*(limb<3.5?-0.19:0.19);
-    if(aAttack>.5){if(limb>.5&&limb<2.5)ang*=.12;if(limb>2.5)ang=-.9+sin(uTime*7.+aPhase+(limb<3.5?0.:1.4))*.65;}
-    vec3 q=transformed-pivot;transformed=pivot+vec3(q.x,q.y*cos(ang)-q.z*sin(ang),q.y*sin(ang)+q.z*cos(ang));
-    transformed.y+=abs(gait)*0.035;transformed.z+=aAttack*max(0.,gait)*.08;vHit=aHit;`,
-          );
-        shader.fragmentShader = shader.fragmentShader
-          .replace(
-            "#include <common>",
-            "#include <common>\nvarying float vHit; uniform float uRetro;",
-          )
-          .replace(
-            "#include <color_fragment>",
-            "#include <color_fragment>\ndiffuseColor.rgb=mix(diffuseColor.rgb, pow(diffuseColor.rgb,vec3(.72))*vec3(.88,1.08,1.12),uRetro); diffuseColor.rgb=mix(diffuseColor.rgb,vec3(1.,.96,.75),vHit*.9);",
-          );
-      };
+      const { material: mat, time, retro } = unitMaterial(type);
       const mesh = new T.InstancedMesh(geo, mat, CAP);
       mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
       mesh.frustumCulled = false;
@@ -140,7 +119,8 @@ export class Battlefield {
       corpse.count = 0;
       this.scene.add(corpse);
       corpse.userData.originalGeo = corpse.geometry;
-      corpse.userData.retroGeo = zombieGeometry(type, true);
+      corpse.userData.retroGeo = fallenGeometry(type, true);
+      corpse.setColorAt(0, new T.Color(1, 1, 1));
       this.corpses.push(corpse);
     }
     this.shadow = new T.InstancedMesh(
@@ -156,6 +136,7 @@ export class Battlefield {
     this.shadow.frustumCulled = false;
     this.scene.add(this.shadow);
     this.frustum = new T.Frustum();
+    this.unitBounds = new T.Sphere(new T.Vector3(), 2.8);
     this.proj = new T.Matrix4();
     this.vec = new T.Vector3();
     this.steam = 0;
@@ -167,12 +148,14 @@ export class Battlefield {
     this.canvas.classList.toggle("retro", retro && this.pixelFilter);
     this.retroScenery.visible = retro;
     this.retroFort.group.visible = retro;
+    this.impacts.setEnabled(retro);
     this.ambient.color.setHex(retro ? 0xb9e5ff : 0xd3e7e7);
     this.ambient.groundColor.setHex(retro ? 0x39345e : 0x4b422e);
     this.ambient.intensity = retro ? 2.6 : 2.1;
     this.sun.color.setHex(retro ? 0xffe4ab : 0xffe0a0);
     this.sun.intensity = retro ? 3.8 : 3.4;
     this.scene.fog.color.setHex(retro ? 0x273e51 : 0x465544);
+    this.scene.fog.density = retro ? 0.004 : 0.009;
     this.terrain.ground.material.map = retro
       ? this.retroGround
       : this.originalGround;
@@ -188,8 +171,9 @@ export class Battlefield {
     this.resize();
   }
   resize() {
-    const w = this.canvas.parentElement.clientWidth,
-      h = this.canvas.parentElement.clientHeight;
+    this.displayDpr = devicePixelRatio;
+    const w = Math.max(1, this.canvas.parentElement.clientWidth),
+      h = Math.max(1, this.canvas.parentElement.clientHeight);
     const pixelated = this.style === "retro" && this.pixelFilter;
     this.canvas.classList.toggle("retro", pixelated);
     this.renderer.setPixelRatio(
@@ -208,6 +192,9 @@ export class Battlefield {
     this.camera.top = half;
     this.camera.bottom = -half;
     this.camera.updateProjectionMatrix();
+    // Resizing clears the drawing buffer even while gameplay is paused.
+    this.update(0);
+    this.render();
   }
   death(i, element, knock) {
     const h = this.horde;
@@ -216,6 +203,7 @@ export class Battlefield {
       z: h.z[i],
       a: h.angle[i] + (Math.random() - 0.5),
       type: h.type[i],
+      element,
       time: 0,
       v: Math.min(knock, 5),
       phase: Math.random(),
@@ -235,7 +223,21 @@ export class Battlefield {
     this.retroFort.time.value = this.time;
     this.retroFort.core.rotation.set(this.time * 0.4, this.time * 0.7, 0);
     this.retroFort.halo.rotation.z = this.time * 0.6;
-    this.retroFort.core.scale.setScalar(1 + Math.sin(this.time * 3) * 0.08);
+    this.energy = Math.max(0, this.energy - dt * 3.5);
+    this.retroFort.core.scale.setScalar(
+      1 + Math.sin(this.time * 3) * 0.08 + this.energy * 0.35,
+    );
+    this.retroFort.halo.scale.setScalar(1 + this.energy * 0.3);
+    this.impacts.update(dt);
+    for (let i = 0; i < 4; i++) {
+      const gun = this.fort.turrets[i],
+        kick = this.recoil[i];
+      gun.position.copy(gun.userData.anchor);
+      gun.position.x -= Math.sin(gun.rotation.y) * kick * 0.24;
+      gun.position.z -= Math.cos(gun.rotation.y) * kick * 0.24;
+      gun.rotation.x = -kick * 0.06;
+      this.recoil[i] = Math.max(0, kick - dt * 9);
+    }
     this.shake = Math.max(0, this.shake - dt * 3);
     this.camera.position.x =
       30 +
@@ -264,9 +266,35 @@ export class Battlefield {
       if (h.hp[i] > 0) {
         const t = h.type[i],
           u = this.units[t],
-          n = counts[t]++,
           s =
             (t === 2 ? 1.55 : t === 1 ? 0.95 : 1) * (0.91 + h.phase[i] * 0.025);
+        // Keep an oversized animated-body bound at the edge: off-screen heads/arms
+        // must not vanish just because the unit's feet have left the viewport.
+        this.unitBounds.center.set(h.x[i], 1, h.z[i]);
+        this.unitBounds.radius = 1.8 * s;
+        if (!this.frustum.intersectsSphere(this.unitBounds)) continue;
+        const n = counts[t]++;
+        if (
+          t === 2 &&
+          this.style === "retro" &&
+          dt > 0 &&
+          Math.floor((this.time * 6.8 + h.phase[i]) / Math.PI) !==
+            Math.floor(((this.time - dt) * 6.8 + h.phase[i]) / Math.PI)
+        ) {
+          this.fx.smoke.emit(
+            h.x[i],
+            0.08,
+            h.z[i],
+            0.65,
+            0x9b9675,
+            0.55,
+            0,
+            0.1,
+            0,
+            0.13,
+            1.3,
+          );
+        }
         dummy.position.set(h.x[i], 0, h.z[i]);
         dummy.rotation.set(0, h.angle[i], 0);
         dummy.scale.set(s, s, s);
@@ -303,25 +331,54 @@ export class Battlefield {
         this.dead.splice(i, 1);
         continue;
       }
-      if (dc[d.type] >= 180) continue;
       d.x -= Math.sin(d.a) * d.v * dt;
       d.z -= Math.cos(d.a) * d.v * dt;
       d.v *= Math.exp(-dt * 4);
-      const f = Math.min(1, d.time * 5),
+      this.unitBounds.center.set(d.x, 0.5, d.z);
+      this.unitBounds.radius = d.type === 2 ? 3.2 : 2;
+      if (!this.frustum.intersectsSphere(this.unitBounds) || dc[d.type] >= 180)
+        continue;
+      const stylized = this.style === "retro";
+      const fallTime = stylized
+        ? d.element === 2
+          ? 0.4
+          : d.element === 1
+            ? 0.32
+            : 0.25
+        : 0.2;
+      const f = Math.min(1, d.time / fallTime),
         s = d.type === 2 ? 1.55 : 0.97;
+      const lift = stylized
+        ? d.element === 2
+          ? 0.9
+          : d.element === 1
+            ? 0.24
+            : 0.38
+        : 0.55;
       dummy.position.set(
         d.x,
-        0.11 + Math.sin(f * Math.PI) * 0.55 - Math.max(0, d.time - 10) * 0.13,
+        0.11 + Math.sin(f * Math.PI) * lift - Math.max(0, d.time - 10) * 0.13,
         d.z,
       );
-      dummy.rotation.set(-Math.PI * 0.48 * f, d.a, d.phase * 0.25);
+      dummy.rotation.set(
+        -Math.PI * 0.48 * f,
+        d.a,
+        (d.phase - 0.5) * (stylized ? 0.85 : 0.5) * f,
+      );
       dummy.scale.setScalar(s);
       dummy.updateMatrix();
-      this.corpses[d.type].setMatrixAt(dc[d.type]++, dummy.matrix);
+      const slot = dc[d.type]++;
+      this.corpses[d.type].setMatrixAt(slot, dummy.matrix);
+      if (stylized && d.element === 1 && d.time < 0.2)
+        color.setRGB(0.6, 1.8, 2.4);
+      else if (stylized && d.element === 2) color.setRGB(0.7, 0.57, 0.46);
+      else color.setRGB(1, 1, 1);
+      this.corpses[d.type].setColorAt(slot, color);
     }
     for (let t = 0; t < 3; t++) {
       this.corpses[t].count = dc[t];
       this.corpses[t].instanceMatrix.needsUpdate = true;
+      this.corpses[t].instanceColor.needsUpdate = true;
     }
     this.fx.scale = this.canvas.height / (this.camera.top - this.camera.bottom);
     this.steam -= dt;

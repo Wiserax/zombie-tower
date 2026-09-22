@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-22T14:09:51.449Z",
+  "date": "2026-09-22T14:59:17.467Z",
   "base": "http://localhost:5197",
   "results": [
     {
@@ -56,11 +56,11 @@
       },
       "resource": {
         "before": {
-          "geometries": 41,
+          "geometries": 45,
           "textures": 4
         },
         "after": {
-          "geometries": 41,
+          "geometries": 45,
           "textures": 4
         }
       }
@@ -111,19 +111,19 @@
         },
         "style": "retro",
         "resolution": [
-          390,
-          844
+          624,
+          1350
         ],
         "pixelFilter": false,
-        "dpr": 1
+        "dpr": 1.6
       },
       "resource": {
         "before": {
-          "geometries": 41,
+          "geometries": 45,
           "textures": 4
         },
         "after": {
-          "geometries": 41,
+          "geometries": 45,
           "textures": 4
         }
       }
@@ -182,11 +182,11 @@
       },
       "resource": {
         "before": {
-          "geometries": 41,
+          "geometries": 45,
           "textures": 4
         },
         "after": {
-          "geometries": 41,
+          "geometries": 45,
           "textures": 4
         }
       }
@@ -245,11 +245,11 @@
       },
       "resource": {
         "before": {
-          "geometries": 41,
+          "geometries": 45,
           "textures": 4
         },
         "after": {
-          "geometries": 41,
+          "geometries": 45,
           "textures": 4
         }
       }
@@ -308,11 +308,11 @@
       },
       "resource": {
         "before": {
-          "geometries": 41,
+          "geometries": 45,
           "textures": 4
         },
         "after": {
-          "geometries": 41,
+          "geometries": 45,
           "textures": 4
         }
       }

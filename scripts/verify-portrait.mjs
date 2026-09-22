@@ -12,7 +12,10 @@ for (const [width, height] of [
   [1920, 1080],
   [844, 390],
 ]) {
-  const page = await browser.newPage({ viewport: { width, height } });
+  const page = await browser.newPage({
+    viewport: { width, height },
+    deviceScaleFactor: width === 390 ? 2 : 1,
+  });
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto(base);
   await page.waitForFunction(() => window.__lab);

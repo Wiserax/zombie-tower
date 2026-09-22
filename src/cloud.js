@@ -33,7 +33,9 @@ export class Cloud {
       blending: additive ? T.AdditiveBlending : T.NormalBlending,
       uniforms: { uScale: { value: 20 } },
       vertexShader: `attribute float size;attribute float alpha;attribute vec3 color;varying float vAlpha;varying vec3 vColor;uniform float uScale;void main(){vAlpha=alpha;vColor=color;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);gl_PointSize=size*uScale;}`,
-      fragmentShader: `varying float vAlpha;varying vec3 vColor;void main(){vec2 uv=gl_PointCoord-.5;float r=length(uv)*2.;float a=pow(max(0.,1.-r*r),2.)*vAlpha;gl_FragColor=vec4(vColor,a);}`,
+      fragmentShader: `varying float vAlpha;varying vec3 vColor;void main(){vec2 uv=gl_PointCoord-.5;float r=length(uv)*2.;float a=pow(max(0.,1.-r*r),2.)*vAlpha;gl_FragColor=vec4(vColor,a);
+#include <colorspace_fragment>
+}`,
     });
     this.mesh = new T.Points(g, this.material);
     this.mesh.frustumCulled = false;

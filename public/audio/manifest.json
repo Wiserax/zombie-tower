@@ -1,0 +1,137 @@
+{
+  "musicLoopSeconds": 87.27272727272727,
+  "assets": [
+    {
+      "file": "gun0.wav",
+      "seconds": 0.3,
+      "peak": 0.73,
+      "rms": 0.0898
+    },
+    {
+      "file": "gun1.wav",
+      "seconds": 0.3,
+      "peak": 0.73,
+      "rms": 0.0901
+    },
+    {
+      "file": "gun2.wav",
+      "seconds": 0.3,
+      "peak": 0.73,
+      "rms": 0.1045
+    },
+    {
+      "file": "launch.wav",
+      "seconds": 0.75,
+      "peak": 0.78,
+      "rms": 0.1334
+    },
+    {
+      "file": "boom0.wav",
+      "seconds": 1.8,
+      "peak": 0.84,
+      "rms": 0.1129
+    },
+    {
+      "file": "boom1.wav",
+      "seconds": 1.8,
+      "peak": 0.84,
+      "rms": 0.1049
+    },
+    {
+      "file": "ballista.wav",
+      "seconds": 0.5,
+      "peak": 0.68,
+      "rms": 0.0656
+    },
+    {
+      "file": "tesla.wav",
+      "seconds": 0.65,
+      "peak": 0.72,
+      "rms": 0.054
+    },
+    {
+      "file": "overcharge.wav",
+      "seconds": 2.6,
+      "peak": 0.88,
+      "rms": 0.1031
+    },
+    {
+      "file": "ui.wav",
+      "seconds": 0.0071,
+      "peak": 0.56,
+      "rms": 0.2096
+    },
+    {
+      "file": "open.wav",
+      "seconds": 0.1478,
+      "peak": 0.56,
+      "rms": 0.1896
+    },
+    {
+      "file": "close.wav",
+      "seconds": 0.1478,
+      "peak": 0.56,
+      "rms": 0.1675
+    },
+    {
+      "file": "focus.wav",
+      "seconds": 0.0203,
+      "peak": 0.56,
+      "rms": 0.1517
+    },
+    {
+      "file": "ready.wav",
+      "seconds": 0.539,
+      "peak": 0.56,
+      "rms": 0.1165
+    },
+    {
+      "file": "hit.wav",
+      "seconds": 0.3102,
+      "peak": 0.56,
+      "rms": 0.0809
+    },
+    {
+      "file": "death.wav",
+      "seconds": 0.1804,
+      "peak": 0.56,
+      "rms": 0.1108
+    },
+    {
+      "file": "pack.wav",
+      "seconds": 0.9,
+      "peak": 0.56,
+      "rms": 0.0941
+    },
+    {
+      "file": "horde0.wav",
+      "seconds": 1.5,
+      "peak": 0.62,
+      "rms": 0.1078
+    },
+    {
+      "file": "horde1.wav",
+      "seconds": 1.5,
+      "peak": 0.62,
+      "rms": 0.1192
+    },
+    {
+      "file": "siege-bed.mp3",
+      "seconds": 87.2727,
+      "peak": 0.64,
+      "rms": 0.1301
+    },
+    {
+      "file": "siege-drums.mp3",
+      "seconds": 87.2727,
+      "peak": 0.7,
+      "rms": 0.085
+    },
+    {
+      "file": "wind.mp3",
+      "seconds": 15.5,
+      "peak": 0.35,
+      "rms": 0.0661
+    }
+  ]
+}

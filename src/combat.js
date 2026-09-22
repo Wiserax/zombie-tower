@@ -25,6 +25,7 @@ export class Combat {
         this.h.z[i] - b.position.z,
       );
       b.rotation.y = a;
+      this.onSound("ballista", 0.3, b.position.x);
       for (const offset of [-0.11, 0, 0.11])
         this.bolts.push({
           x: b.position.x,
@@ -59,11 +60,13 @@ export class Combat {
       2.63,
       gun.position.z + Math.cos(a) * 1.5,
     ];
+    this.v.impacts.muzzle(...s, a);
+    this.v.recoil[t] = 1;
     this.fx.line(s, [x, 0.9, z], 0xffe3a0, 0.075);
     this.fx.burst(...s, 3, 0xffd77e, 1.5);
     this.fx.glow.emit(...s, 0.85, 0xffbf48, 0.12, 0, 0, 0, 1, 0);
     h.damage(i, 17, 0.4, 0);
-    this.onSound("gun", 0.12);
+    this.onSound("gun", 0.12, gun.position.x);
   }
   fireMortar(t) {
     const i = this.target(28);
@@ -81,13 +84,22 @@ export class Combat {
       time: 0,
       max: 1.2,
     });
+    this.v.recoil[t] = 1.8;
+    this.v.impacts.muzzle(
+      g.position.x + Math.sin(g.rotation.y) * 1.1,
+      3.3,
+      g.position.z + Math.cos(g.rotation.y) * 1.1,
+      g.rotation.y,
+      true,
+    );
     this.fx.burst(g.position.x, 3.2, g.position.z, 8, 0xffce78, 3);
-    this.onSound("launch", 0.3);
+    this.onSound("launch", 0.3, g.position.x);
   }
   zap() {
     const h = this.h;
     let i = this.target(25);
     if (i < 0) return;
+    this.v.energy = 1;
     let from = [0, 7.1, 0];
     const seen = new Set();
     for (let k = 0; k < 13 && i >= 0; k++) {
@@ -113,8 +125,9 @@ export class Combat {
   strike(x, z) {
     const n = this.h.blast(x, z, 4.3, 135);
     this.fx.explosion(x, z, 4.8);
+    this.v.impacts.explosion(x, z, 4.8);
     this.v.shake = 0.8;
-    this.onSound("boom", 0.6);
+    this.onSound("boom", 0.6, x);
     if (n >= 5) {
       this.lastPack = n;
       this.onPack(n);
@@ -124,6 +137,7 @@ export class Combat {
   overcharge() {
     if (this.cooldown > 0) return false;
     this.cooldown = 12;
+    this.v.energy = 1.8;
     this.fx.ring(0, 0, 25, 0x93e9ff, 1.15);
     let n = 0;
     for (let i = 0; i < this.h.hp.length; i++)
@@ -141,6 +155,7 @@ export class Combat {
   step(dt) {
     this.cooldown = Math.max(0, this.cooldown - dt);
     this.focusTime -= dt;
+    this.fx.focus(this.focus, this.focusTime);
     for (let t = 0; t < 4; t++) {
       this.clocks[t] -= dt;
       const active = t < 2 ? this.enabled.guns : this.enabled.mortar;

@@ -98,7 +98,7 @@
         <div class="bottom-row">
           <button id="settings-toggle">⚙ <span>SCENE</span></button
           ><span class="hint">Tap the horde to focus fire</span
-          ><span class="build-label">VISUAL LAB · 0.2</span>
+          ><span class="build-label">VISUAL LAB · 0.3</span>
         </div>
       </footer>
       <section id="settings" hidden>
@@ -136,6 +136,27 @@
           ><input id="stats-toggle" type="checkbox" /> Performance
           counters</label
         >
+        <div class="audio-controls">
+          <p>Sound mix</p>
+          <label for="audio-music"
+            >Music
+            <input id="audio-music" type="range" min="0" max="100" value="45"
+          /></label>
+          <label for="audio-effects"
+            >Effects
+            <input id="audio-effects" type="range" min="0" max="100" value="75"
+          /></label>
+          <label for="audio-ambience"
+            >Ambience
+            <input
+              id="audio-ambience"
+              type="range"
+              min="0"
+              max="100"
+              value="35"
+          /></label>
+          <small id="audio-status" role="status">Tap ♪ to enable sound</small>
+        </div>
         <p class="lab-note">
           A visual combat study. Automatic defenses, endless reinforcements, no
           progression or purchases.

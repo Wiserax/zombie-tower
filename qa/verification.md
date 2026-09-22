@@ -32,3 +32,16 @@ Visual quality still requires the user's judgment against the references. Sound 
 
 - Default Retro uses canvas CSS size times DPR (cap 1.6), not the previous 320-pixel buffer. Coarse pixels require explicit opt-in. The portrait verifier asserts the default drawing-buffer width and exercises the filter toggle.
 - Verified additional crown geometry, animated banners, world-aligned paths and low terrain dressing in desktop/phone screenshots. Density benchmarks refreshed for this sharper rendering.
+
+## 0.3.0 — sharp retro motion and complete audio replacement
+
+- `npm test`: 4 simulation tests passed, including five simulated minutes at 1,600 density.
+- `verify-graphics.mjs`: Chrome and WebKit passed native-resolution/DPR, stale first-frame time, conservative culling at three zooms, actual-pointer focus feedback, and bounded effect capacity checks.
+- `verify-portrait.mjs`: five desktop/mobile/landscape viewport layouts passed, including DPR 2 phone emulation and repeated style-resource reuse.
+- Ten-minute graphics soak: 1,600 alive, no runtime errors, 60 FPS samples, fixed 44 geometries / 4 textures / 23 programs after both styles were warm. JS heap after forced GC changed from 5.98 MB to 6.43 MB, not a claim of zero allocation. `qa/graphics-soak.json` identifies the tested graphics runtime hash, which predates the added audio engine and combo popup priority fix.
+- `verify-audio.mjs`: Chrome and WebKit passed all 22 decodes, explicit activation with no initial audio request/context, pause/mute/resume, persistent levels without autoplay, event coverage, bounded voices, and self-contained HTML decoding. Chrome recorded 94 seconds at 1,600 density, crossing the 87.27-second score loop; peak simultaneous transient count 11, no dropped priority voices, sampled frame rate 55–60.
+- Captured Chrome mix at the QA slider settings (music 62%, effects 70%, ambience 30%) measured -22.5 LUFS integrated and -4.2 dBFS true peak via ffmpeg ebur128. This is technical signal validation; the laptop remained physically muted, so no headphone/physical-phone listening claim is made.
+- Final assets: approximately 3.6 MB on disk, lazy-loaded on sound activation; standalone HTML approximately 5.3 MiB including audio.
+- Source sound pack licenses are preserved under `public/audio/`. Original score and edited effects are reproducible with `scripts/design-audio.py`.
+
+Additional lifecycle checks passed: failed-download retry, synthetic page-background suspend/resume, and sound from a real local `file://` standalone URL.

@@ -9,3 +9,11 @@ __pycache__/
 .DS_Store
 *.log
 qa/npm-audit-initial.json
+
+# Local motion studies and live QA checkpoints
+qa/motion/
+qa/*.jpg
+qa/*-progress.json
+
+qa/*.m4a
+qa/*.wav

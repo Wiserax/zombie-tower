@@ -1,0 +1,158 @@
+{
+  "date": "2026-09-22T14:58:46.401Z",
+  "base": "http://localhost:5197",
+  "results": [
+    {
+      "engine": "chrome",
+      "startup": {
+        "elapsed": 1.2565999999999995,
+        "minimumHP": 0,
+        "maximumFlash": 0.9336000084877014,
+        "resolution": [
+          624,
+          1350
+        ],
+        "dpr": 1.6
+      },
+      "metrics": {
+        "style": "retro",
+        "pixelFilter": false,
+        "resolution": [
+          624,
+          1350
+        ],
+        "alive": 1600,
+        "visible": 1013,
+        "rendered": 1142,
+        "impactFlashes": 0,
+        "muzzleFlashes": 2,
+        "target": 1600,
+        "kills": 438,
+        "corpses": 400,
+        "particles": 170,
+        "drawCalls": 36,
+        "triangles": 827308,
+        "fps": 60,
+        "frameP95": 16.700000000000728,
+        "simP95": 0.800000011920929,
+        "renderP95": 1.300000011920929,
+        "geometries": 45,
+        "textures": 4,
+        "neighborChecks": 34872,
+        "elapsed": 9.563000000000017
+      },
+      "culling": [
+        {
+          "zoom": 0.7,
+          "expected": 375,
+          "rendered": 391,
+          "missing": 0
+        },
+        {
+          "zoom": 1,
+          "expected": 242,
+          "rendered": 273,
+          "missing": 0
+        },
+        {
+          "zoom": 1.7,
+          "expected": 82,
+          "rendered": 111,
+          "missing": 0
+        }
+      ],
+      "pools": {
+        "peak": {
+          "blasts": 32,
+          "muzzles": 24,
+          "flames": 96,
+          "stars": 32
+        },
+        "after": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "startup": {
+        "elapsed": 1.22,
+        "minimumHP": 0,
+        "maximumFlash": 0.7999999523162842,
+        "resolution": [
+          624,
+          1350
+        ],
+        "dpr": 1.6
+      },
+      "metrics": {
+        "style": "retro",
+        "pixelFilter": false,
+        "resolution": [
+          624,
+          1350
+        ],
+        "alive": 1598,
+        "visible": 1000,
+        "rendered": 1109,
+        "impactFlashes": 0,
+        "muzzleFlashes": 2,
+        "target": 1600,
+        "kills": 423,
+        "corpses": 400,
+        "particles": 166,
+        "drawCalls": 36,
+        "triangles": 814996,
+        "fps": 60,
+        "frameP95": 19,
+        "simP95": 2,
+        "renderP95": 2,
+        "geometries": 45,
+        "textures": 4,
+        "neighborChecks": 34569,
+        "elapsed": 9.649000000000004
+      },
+      "culling": [
+        {
+          "zoom": 0.7,
+          "expected": 375,
+          "rendered": 389,
+          "missing": 0
+        },
+        {
+          "zoom": 1,
+          "expected": 240,
+          "rendered": 268,
+          "missing": 0
+        },
+        {
+          "zoom": 1.7,
+          "expected": 80,
+          "rendered": 102,
+          "missing": 0
+        }
+      ],
+      "pools": {
+        "peak": {
+          "blasts": 32,
+          "muzzles": 24,
+          "flames": 96,
+          "stars": 32
+        },
+        "after": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "errors": []
+    }
+  ]
+}

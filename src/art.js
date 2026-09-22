@@ -241,18 +241,67 @@ export function zombieGeometry(type = 0, retro = false) {
     b.box(0x60503e, 0, 0.9, 0.225, 0.25, 0.3, 0.035);
   }
   b.box(0x49332e, 0.07, 0.94, 0.208, 0.07, 0.17, 0.015);
+  if (retro) {
+    // Shared gameplay archetypes, deliberately different silhouettes.
+    if (type === 0) {
+      b.box(0x58313d, -0.105, 0.93, 0.216, 0.055, 0.21, 0.02);
+      b.box(0x252c32, 0, 1.28, 0.261, 0.13, 0.065, 0.015);
+      b.box(0xe7d4a4, 0, 1.29, 0.273, 0.1, 0.018, 0.016);
+    } else if (type === 1) {
+      b.sphere(0x34586a, 0, 1.08, -0.04, 0.235, 0.16, 0.24, 0);
+      for (let i = 0; i < 3; i++)
+        b.add(
+          new T.ConeGeometry(0.055, 0.2, 4),
+          0x1e3039,
+          (i - 1) * 0.08,
+          1.43,
+          0.04,
+          1,
+          1,
+          1,
+          -0.4,
+        );
+    } else {
+      b.sphere(skin, 0, 0.89, 0.18, 0.32, 0.28, 0.22, 1);
+      b.sphere(0x5b795c, 0, 1.14, -0.08, 0.38, 0.2, 0.23, 0);
+      b.box(0x394b40, 0, 0.83, 0.388, 0.14, 0.1, 0.015);
+      for (const side of [-1, 1]) {
+        b.add(
+          new T.IcosahedronGeometry(1, 0),
+          skin,
+          side * 0.31,
+          0.72,
+          0.29,
+          0.13,
+          0.17,
+          0.14,
+          0,
+          0,
+          0,
+          side < 0 ? 3 : 4,
+          [side * 0.23, 1.1, 0.07],
+        );
+        b.box(0xd9cd9c, side * 0.12, 1.24, 0.27, 0.055, 0.1, 0.045);
+      }
+    }
+  }
+
   const geometry = b.build();
   if (retro) {
     const pos = geometry.attributes.position;
     for (let i = 0; i < pos.count; i++) {
       const y = pos.getY(i);
       const head = y > 1.15;
-      pos.setXYZ(
-        i,
-        pos.getX(i) * (head ? 1.6 : 1.17),
-        head ? 1.15 + (y - 1.15) * 1.3 : y,
-        head ? 0.12 + (pos.getZ(i) - 0.12) * 1.5 : pos.getZ(i),
-      );
+      let px = pos.getX(i) * (head ? 1.6 : 1.17),
+        py = head ? 1.15 + (y - 1.15) * 1.3 : y,
+        pz = head ? 0.12 + (pos.getZ(i) - 0.12) * 1.5 : pos.getZ(i);
+      if (type === 1) {
+        const bend = Math.max(0, y - 0.65);
+        py -= bend * 0.22;
+        pz += bend * 0.32;
+        px *= 0.91;
+      }
+      pos.setXYZ(i, px, py, pz);
     }
     geometry.computeVertexNormals();
   }
@@ -639,4 +688,32 @@ export function fortress(scene) {
     ballistas.push(mesh);
   }
   return { base, lights, turrets, ballistas };
+}
+
+// A compact crumpled pose for fallen bodies; runtime still uses one instanced draw per type.
+export function fallenGeometry(type, retro = false) {
+  const geometry = zombieGeometry(type, retro);
+  if (!retro) return geometry;
+  const pos = geometry.attributes.position,
+    limb = geometry.attributes.limb,
+    pivot = geometry.attributes.pivot;
+  for (let i = 0; i < pos.count; i++) {
+    const tag = limb.getX(i),
+      angle =
+        tag === 1
+          ? 0.42
+          : tag === 2
+            ? -0.25
+            : tag === 3
+              ? -1.15
+              : tag === 4
+                ? -0.55
+                : 0;
+    const y = pos.getY(i) - pivot.getY(i),
+      z = pos.getZ(i) - pivot.getZ(i);
+    pos.setY(i, pivot.getY(i) + y * Math.cos(angle) - z * Math.sin(angle));
+    pos.setZ(i, pivot.getZ(i) + y * Math.sin(angle) + z * Math.cos(angle));
+  }
+  geometry.computeVertexNormals();
+  return geometry;
 }

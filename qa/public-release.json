@@ -1,19 +1,19 @@
 {
-  "date": "2026-09-22T14:01:50.327Z",
+  "date": "2026-09-22T14:13:34.383Z",
   "base": "https://wiserax.github.io/zombie-tower/",
-  "commit": "f295dd3",
-  "version": "0.2.0",
+  "commit": "87657bb",
+  "version": "0.2.1",
   "results": [
     {
       "path": "index.html",
       "status": 200,
-      "sha256": "db2adb93f986e9976b1cbf83a8f5fd39a134a3442d42a83b47ed3781f99ac873",
+      "sha256": "b64d2b881306fe53f9fa85149e955cb723e1d7c9cae75289e6e96bed83082dc9",
       "matchesLocal": true
     },
     {
       "path": "Deadwood.html",
       "status": 200,
-      "sha256": "37bcfe7b379c66810161d7e0b43998251c470393ef9ce6c8bee014dbc2d2e53e",
+      "sha256": "f4c0f752283b5be173eae3ac54f561b83c34e97731673334f98b0aaadc3ea131",
       "matchesLocal": true
     },
     {
@@ -23,15 +23,15 @@
       "matchesLocal": true
     },
     {
-      "path": "assets/index-C50TyMsm.js",
+      "path": "assets/index-DVW-hXZb.js",
       "status": 200,
-      "sha256": "f392f212a670b4c7eccf3e997b2996ba5b01f21d4bb07aedd715659bf971b194",
+      "sha256": "4cb52aa1785b960dc9a6369b896bf83f65795cbbb7a85dfa19f937ac43246349",
       "matchesLocal": true
     },
     {
-      "path": "assets/three-BlqIXPx0.js",
+      "path": "assets/three-hmleH5jV.js",
       "status": 200,
-      "sha256": "3e41fa2982446a48c194be35c634b55180c339c9760332ae4c53c9ee6d34b95a",
+      "sha256": "f570261f24f44ba87f2444828d7a85e97e686f9ae93a49fadfb1f2faa084ab9b",
       "matchesLocal": true
     }
   ],
@@ -39,26 +39,27 @@
     "errors": [],
     "retro": {
       "style": "retro",
+      "pixelFilter": false,
       "resolution": [
-        320,
-        684
+        422,
+        902
       ],
       "alive": 600,
       "visible": 279,
       "target": 600,
       "kills": 18,
       "corpses": 18,
-      "particles": 87,
-      "drawCalls": 27,
-      "triangles": 355064,
+      "particles": 80,
+      "drawCalls": 33,
+      "triangles": 362544,
       "fps": 56,
-      "frameP95": 16.799999999999955,
-      "simP95": 0.4000000059604645,
-      "renderP95": 1,
-      "geometries": 29,
-      "textures": 2,
-      "neighborChecks": 7757,
-      "elapsed": 2.0966
+      "frameP95": 16.800000000000182,
+      "simP95": 0.5,
+      "renderP95": 1.2000000178813934,
+      "geometries": 35,
+      "textures": 3,
+      "neighborChecks": 7807,
+      "elapsed": 2.0799
     },
     "original": "original"
   }

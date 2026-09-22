@@ -125,8 +125,8 @@ export function retroLandmarks(scene) {
   }
   // Broken fence remnants sit outside the fort, low enough not to conceal units.
   for (const [x, z, a] of [
-    [-15, 9, 0.4],
-    [15, -11, 0.1],
+    [-8, 14, 0.4],
+    [17, 0, 0.1],
     [-10, -22, 0.8],
   ]) {
     for (let j = 0; j < 4; j++) {

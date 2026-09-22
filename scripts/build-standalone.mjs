@@ -25,6 +25,18 @@ html = html.replace(
   "</body>",
   `<script type="application/json" id="font-licenses">${JSON.stringify(licenses)}</script></body>`,
 );
+const audioAssets = {};
+for (const name of await fs.readdir("public/audio")) {
+  if (!/\.(wav|mp3)$/.test(name)) continue;
+  const bytes = await fs.readFile("public/audio/" + name);
+  audioAssets[name] =
+    `data:audio/${name.endsWith(".mp3") ? "mpeg" : "wav"};base64,${bytes.toString("base64")}`;
+}
+const audioCredits = await fs.readFile("public/audio/CREDITS.txt", "utf8");
+html = html.replace(
+  "</body>",
+  `<script type="application/json" id="audio-assets">${JSON.stringify(audioAssets)}</script><script type="application/json" id="audio-credits">${JSON.stringify(audioCredits)}</script></body>`,
+);
 const icon = await fs.readFile("public/icon.svg", "utf8");
 html = html.replace(
   "./icon.svg",

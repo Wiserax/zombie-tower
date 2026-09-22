@@ -732,3 +732,26 @@ body {
     max-height: calc(100% - 145px);
   }
 }
+
+.audio-controls {
+  border-top: 1px solid #dfc08155;
+  margin-top: 12px;
+  padding-top: 4px;
+}
+#settings .audio-controls label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 38px;
+  align-items: center;
+}
+.audio-controls input[type="range"] {
+  width: 60%;
+  accent-color: #f3c45b;
+  touch-action: pan-x;
+}
+#audio-status {
+  display: block;
+  color: #f4dba3;
+  padding: 8px 0;
+}

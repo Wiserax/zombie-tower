@@ -1,0 +1,22 @@
+DEADWOOD SIEGE — AUDIO 0.3
+
+Original composition and sound design for this project:
+Siege bed / siege drums: 32 bars at 88 BPM, D minor. Procedural studio render
+from scripts/design-audio.py, with synchronized arrangement and circular delay tails.
+Wind, electrical crackle, creature calls, reward chime, cannon pressure/body layers:
+original offline DSP renders from the same script.
+
+Recorded source material, edited/layered into game effects:
+Kenney — Impact Sounds (1.0)
+https://kenney.nl/assets/impact-sounds
+Kenney — Sci-Fi Sounds (1.0)
+https://kenney.nl/assets/sci-fi-sounds
+Kenney — Interface Sounds (1.0)
+https://kenney.nl/assets/interface-sounds
+License for these source recordings: Creative Commons Zero (CC0).
+https://creativecommons.org/publicdomain/zero/1.0/
+The original pack license files accompany this document.
+
+Exact sample selection, transformations, composition and mix are recorded in
+scripts/design-audio.py and src/audio.js. No copyrighted commercial game audio
+was extracted or reused.

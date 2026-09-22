@@ -1,0 +1,368 @@
+{
+  "date": "2026-09-22T14:56:02.949Z",
+  "engines": [
+    {
+      "name": "Chrome",
+      "errors": [],
+      "decoded": [
+        {
+          "name": "gun2.wav",
+          "duration": 0.3,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "gun1.wav",
+          "duration": 0.3,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "ui.wav",
+          "duration": 0.007104166666666667,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "ballista.wav",
+          "duration": 0.5,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "gun0.wav",
+          "duration": 0.3,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "open.wav",
+          "duration": 0.14779166666666665,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "focus.wav",
+          "duration": 0.0203125,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "close.wav",
+          "duration": 0.14779166666666665,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "death.wav",
+          "duration": 0.18039583333333334,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "hit.wav",
+          "duration": 0.31014583333333334,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "tesla.wav",
+          "duration": 0.6499583333333333,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "boom0.wav",
+          "duration": 1.8,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "boom1.wav",
+          "duration": 1.8,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "launch.wav",
+          "duration": 0.7500208333333334,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "ready.wav",
+          "duration": 0.539,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "pack.wav",
+          "duration": 0.9,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "overcharge.wav",
+          "duration": 2.6,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "horde0.wav",
+          "duration": 1.5,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "horde1.wav",
+          "duration": 1.5,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "wind.mp3",
+          "duration": 15.5,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "siege-bed.mp3",
+          "duration": 87.27272916666666,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "name": "siege-drums.mp3",
+          "duration": 87.27272916666666,
+          "channels": 2,
+          "sampleRate": 48000
+        }
+      ],
+      "metrics": {
+        "enabled": true,
+        "ready": true,
+        "state": "running",
+        "voices": 6,
+        "peakVoices": 11,
+        "buffers": 22,
+        "loops": 3,
+        "counts": {
+          "open": 3,
+          "death": 128,
+          "pack": 23,
+          "overcharge": 8,
+          "gun": 826,
+          "launch": 73,
+          "ballista": 63,
+          "tesla": 70,
+          "boom": 73,
+          "close": 1,
+          "horde": 12,
+          "ready": 7
+        },
+        "dropped": 0
+      },
+      "levels": {
+        "maxPeak": 0.4742250442504883,
+        "averageRms": 0.06036392306298874,
+        "minFps": 55,
+        "samples": 940
+      },
+      "checks": [
+        "opt-in lazy load",
+        "22 assets decoded",
+        "synchronized music duration",
+        "pause/mute suspend",
+        "resume keeps 3 loops",
+        "volume persistence without autoplay",
+        "bounded voices",
+        "limiter headroom",
+        "battle event coverage",
+        "full 87-second musical loop crossed"
+      ]
+    },
+    {
+      "name": "WebKit",
+      "errors": [],
+      "decoded": [
+        {
+          "name": "gun1.wav",
+          "duration": 0.3,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "gun2.wav",
+          "duration": 0.3,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "gun0.wav",
+          "duration": 0.3,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "launch.wav",
+          "duration": 0.7500208333333334,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "ballista.wav",
+          "duration": 0.5,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "tesla.wav",
+          "duration": 0.6499583333333333,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "boom0.wav",
+          "duration": 1.8,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "boom1.wav",
+          "duration": 1.8,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "overcharge.wav",
+          "duration": 2.6,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "ui.wav",
+          "duration": 0.007104166666666667,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "open.wav",
+          "duration": 0.14779166666666665,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "close.wav",
+          "duration": 0.14779166666666665,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "focus.wav",
+          "duration": 0.0203125,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "ready.wav",
+          "duration": 0.539,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "hit.wav",
+          "duration": 0.31014583333333334,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "death.wav",
+          "duration": 0.18039583333333334,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "horde0.wav",
+          "duration": 1.5,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "horde1.wav",
+          "duration": 1.5,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "pack.wav",
+          "duration": 0.9,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "siege-bed.mp3",
+          "duration": 87.32733333333333,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "name": "siege-drums.mp3",
+          "duration": 87.32733333333333,
+          "channels": 2,
+          "sampleRate": 48000
+        },
+        {
+          "name": "wind.mp3",
+          "duration": 15.568979166666667,
+          "channels": 1,
+          "sampleRate": 48000
+        }
+      ],
+      "metrics": {
+        "enabled": true,
+        "ready": true,
+        "state": "running",
+        "voices": 6,
+        "peakVoices": 9,
+        "buffers": 22,
+        "loops": 3,
+        "counts": {
+          "open": 3,
+          "death": 10,
+          "pack": 3,
+          "overcharge": 1,
+          "gun": 72,
+          "launch": 7,
+          "ballista": 5,
+          "tesla": 6,
+          "boom": 5,
+          "close": 1,
+          "horde": 1
+        },
+        "dropped": 0
+      },
+      "levels": {
+        "maxPeak": 0.3192058205604553,
+        "averageRms": 0.05955961650818135,
+        "minFps": 61,
+        "samples": 57
+      },
+      "checks": [
+        "opt-in lazy load",
+        "22 assets decoded",
+        "synchronized music duration",
+        "pause/mute suspend",
+        "resume keeps 3 loops",
+        "volume persistence without autoplay",
+        "bounded voices",
+        "limiter headroom",
+        "battle event coverage",
+        "short WebKit capture"
+      ]
+    }
+  ],
+  "standalone": {
+    "buffers": 22,
+    "externalAudioRequests": []
+  }
+}

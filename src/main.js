@@ -2,11 +2,16 @@ import "./style.css";
 import { Horde } from "./sim.js";
 import { Battlefield } from "./renderer.js";
 import { Combat } from "./combat.js";
+import { SiegeAudio } from "./audio.js";
+const siegeAudio = new SiegeAudio();
 const $ = (s) => document.querySelector(s),
   h = new Horde(),
   view = new Battlefield($("#battlefield"), h),
   combat = new Combat(h, view);
-h.onDeath = (i, e, k) => view.death(i, e, k);
+h.onDeath = (i, e, k) => {
+  view.death(i, e, k);
+  if (Math.hypot(h.x[i], h.z[i]) < 20) siegeAudio.play("death", h.x[i] / 35);
+};
 h.onHit = (i, e) => {
   if (Math.random() < 0.35)
     view.fx.burst(h.x[i], 0.8, h.z[i], 2, e === 1 ? 0x8befff : 0xc3a56b, 1.5);
@@ -18,15 +23,19 @@ let paused = false,
   last = performance.now(),
   ui = 0,
   comboTimer = 0,
+  comboCount = 0,
   elapsed = 0;
 combat.onPack = (n) => {
-  if (n < 5) return;
+  if (n < 5 || (comboTimer > 0 && n < comboCount)) return;
+  comboCount = n;
+  if (n >= 20) siegeAudio.play("pack");
   $("#combo span").textContent = n;
   $("#combo").classList.add("show");
-  comboTimer = 1.2;
+  comboTimer = n >= 100 ? 1.8 : 1.2;
 };
 function pause(p) {
   paused = p;
+  siegeAudio.setBlocked(p || document.hidden);
   $("#paused").hidden = !p;
   $("#pause").textContent = p ? "▶" : "Ⅱ";
 }
@@ -92,6 +101,7 @@ $("#battlefield").addEventListener("pointerdown", (e) => {
   if (p) {
     combat.focus = { x: p.x, z: p.z };
     combat.focusTime = 5;
+    siegeAudio.play("focus", p.x / 35);
     const m = $("#focus-marker");
     const rect = $("#battlefield").getBoundingClientRect();
     m.style.left = e.clientX - rect.left + "px";
@@ -104,38 +114,53 @@ $("#battlefield").addEventListener("pointerdown", (e) => {
 new ResizeObserver(() => view.resize()).observe($("#game-shell"));
 document.addEventListener("visibilitychange", () => {
   last = performance.now();
+  siegeAudio.setBlocked(paused || document.hidden);
 });
-// Sound is opt-in; the prototype and all automated verification start silently.
-let audio = null,
-  sound = false;
+// Silent until an explicit click. Volume preferences persist, autoplay consent does not.
 $("#sound").onclick = async () => {
-  sound = !sound;
-  if (sound) {
-    audio ??= new (window.AudioContext || window.webkitAudioContext)();
-    await audio.resume();
+  const button = $("#sound");
+  if (siegeAudio.enabled) {
+    siegeAudio.disable();
+  } else {
+    button.disabled = true;
+    button.textContent = "…";
+    $("#audio-status").textContent = "Preparing soundtrack…";
+    try {
+      await siegeAudio.enable();
+      $("#audio-status").textContent = "Siege mix ready";
+      siegeAudio.play("open");
+    } catch {
+      $("#audio-status").textContent = "Sound could not load. Tap ♪ to retry.";
+    } finally {
+      button.disabled = false;
+    }
   }
-  $("#sound").innerHTML = sound ? "♪" : '♪<span class="slash">╱</span>';
-  $("#sound").setAttribute("aria-label", sound ? "Mute sound" : "Enable sound");
+  button.innerHTML = siegeAudio.enabled ? "♪" : '♪<span class="slash">╱</span>';
+  button.setAttribute(
+    "aria-label",
+    siegeAudio.enabled ? "Mute sound" : "Enable sound",
+  );
+  button.title = siegeAudio.enabled ? "Mute sound" : "Enable sound";
+  button.setAttribute("aria-pressed", String(siegeAudio.enabled));
 };
-combat.onSound = (type, gain) => {
-  if (!sound || !audio || paused) return;
-  const now = audio.currentTime,
-    o = audio.createOscillator(),
-    g = audio.createGain();
-  o.connect(g);
-  g.connect(audio.destination);
-  o.type = type === "tesla" ? "sawtooth" : "triangle";
-  const freq = { gun: 160, launch: 95, boom: 65, tesla: 380, overcharge: 130 }[
-    type
-  ];
-  const dur = type === "overcharge" ? 0.7 : type === "gun" ? 0.06 : 0.25;
-  o.frequency.setValueAtTime(freq, now);
-  o.frequency.exponentialRampToValueAtTime(Math.max(25, freq * 0.3), now + dur);
-  g.gain.setValueAtTime(gain * 0.035, now);
-  g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-  o.start(now);
-  o.stop(now + dur);
-};
+for (const key of ["music", "effects", "ambience"]) {
+  const input = $("#audio-" + key);
+  input.value = Math.round(siegeAudio.levels[key] * 100);
+  input.oninput = () => siegeAudio.setLevel(key, Number(input.value) / 100);
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b || b.id === "sound" || b.id === "overcharge" || b.id === "pause")
+    return;
+  siegeAudio.play(
+    b.id === "settings-toggle"
+      ? "open"
+      : b.id === "close-settings"
+        ? "close"
+        : "ui",
+  );
+});
+combat.onSound = (type, gain, x = 0) => siegeAudio.play(type, x / 35);
 function percentile(a, p) {
   const b = [...a].sort((a, b) => a - b);
   return b[Math.min(b.length - 1, Math.floor(b.length * p))] || 0;
@@ -147,6 +172,9 @@ function metrics() {
     resolution: [view.canvas.width, view.canvas.height],
     alive: h.alive,
     visible: view.visible,
+    rendered: view.units.reduce((n, u) => n + u.mesh.count, 0),
+    impactFlashes: view.impacts.blasts.length,
+    muzzleFlashes: view.impacts.muzzles.length,
     target: h.target,
     kills: h.kills,
     corpses: view.dead.length,
@@ -169,6 +197,7 @@ window.__lab = {
   horde: h,
   view,
   combat,
+  audio: siegeAudio,
   metrics,
   pause,
   setDensity: (n) => h.fill(n),
@@ -186,15 +215,19 @@ window.__lab = {
 };
 function frame(now) {
   requestAnimationFrame(frame);
-  const raw = now - last;
+  // A first rAF timestamp can precede script initialization after shader compilation.
+  const raw = Math.max(0, now - last);
   last = now;
   if (document.hidden) return;
+  // Some browsers/emulation change DPR without resize or media-query events.
+  if (view.displayDpr !== devicePixelRatio) view.resize();
   const dt = Math.min(raw / 1000, 0.04);
   if (!paused) {
     elapsed += dt;
     const t = performance.now();
     h.step(dt);
     combat.step(dt);
+    siegeAudio.update(dt, h, combat.cooldown);
     if (h.health <= 0) {
       combat.cooldown = 0;
       combat.overcharge();
@@ -239,6 +272,8 @@ function frame(now) {
     }
   }
 }
+// Compile the fixed effect materials before the first visible volley.
+view.renderer.compile(view.scene, view.camera);
 view.update(0);
 view.render();
 $("#loading").remove();

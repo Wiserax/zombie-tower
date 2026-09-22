@@ -23,3 +23,16 @@ This is a visual comparison prototype, not a finished progression game or a repr
 ## 0.2.1 follow-up
 
 The user correctly flagged excessive whole-scene pixelation. Native-sized rendering is now the default. The further art pass adds a copper conductor crown, a rotating cyan core, shader-animated red banners, a stone apron, low plants between approach streams and broken fence remnants. New dressing appears only in Retro; Original remains available.
+
+
+## 0.3.0 motion and readability pass
+
+- Solid, faceted mortar fire and brief irregular impact flashes establish a readable explosion before smoke; directional muzzle cones and recoil give the batteries mechanical weight. Luminous cores ignore environmental fog.
+- The Tesla crown pulses on discharge. Brutes have small footstep dust puffs. Runners lean forward; brutes have a heavier belly, shoulders and hands.
+- Limbs rotate their lighting normals together with their positions. Dead bodies use a bent-limb pose, element-specific fall timing and a short electrical tint; blast marks fade out over their last three seconds.
+- Focus fire has a five-second world-space reticle. Large pack-clear messages take priority over smaller subsequent clears.
+- Conservative per-instance culling avoids drawing off-screen bodies while keeping their simulation active. Bounds retain edge-visible heads/arms. Corpses keep aging/moving even when not rendered.
+- Fixed material variants are compiled before the first visible volley. Shared particle shaders now explicitly convert color space.
+- Resize redraws the canvas while paused, and the frame loop detects display-density changes even when no resize/media-query event is delivered. A synthetic stale animation timestamp verifies that startup cannot run the simulation backward.
+
+A one-minute recorded sequence was inspected at the overcharge transition: a visible discharge, falling bodies, expanding ring and a clear gap in the horde. That review exposed the small-clear popup overwriting the large clear, which prompted the priority rule. This evidence supports presentation, not any claim about long-term gameplay quality.
