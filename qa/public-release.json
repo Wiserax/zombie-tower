@@ -1,87 +1,65 @@
 {
-  "date": "2026-09-22T08:44:08.065Z",
+  "date": "2026-09-22T14:01:50.327Z",
   "base": "https://wiserax.github.io/zombie-tower/",
-  "commit": "d2d77ec905e12b86dc9d3aa56955b84ba37e86da",
+  "commit": "f295dd3",
+  "version": "0.2.0",
   "results": [
     {
       "path": "index.html",
       "status": 200,
-      "bytes": 5075,
-      "sha256": "433aa32f7fc7459897c5bfb679766141269e97fcea6e2a8dc2318ffe48634ef5",
+      "sha256": "db2adb93f986e9976b1cbf83a8f5fd39a134a3442d42a83b47ed3781f99ac873",
       "matchesLocal": true
     },
     {
       "path": "Deadwood.html",
       "status": 200,
-      "bytes": 666813,
-      "sha256": "2c81e924d6c7dbae97842c9de6b5d3396ff5b3e2db9215a74a3c507a2cf14d5f",
+      "sha256": "37bcfe7b379c66810161d7e0b43998251c470393ef9ce6c8bee014dbc2d2e53e",
       "matchesLocal": true
     },
     {
-      "path": "icon.svg",
+      "path": "assets/index-Bo-z8p1t.css",
       "status": 200,
-      "bytes": 237,
-      "sha256": "a58935cbb2e4832419c1646186c722c803d3edd093a82bfa32c21de383441a5f",
+      "sha256": "7d9fc66cb5c7c5b4ba13d69ffa7f3a77bf0cf141efdd6bdb2c6eda26f6bb7b97",
       "matchesLocal": true
     },
     {
-      "path": "fonts/lilita-one.ttf",
+      "path": "assets/index-C50TyMsm.js",
       "status": 200,
-      "bytes": 28092,
-      "sha256": "f5b641c45c69d772ee4eda687bc9fda411d5cad6b0b45371491da4580cbc8d59",
+      "sha256": "f392f212a670b4c7eccf3e997b2996ba5b01f21d4bb07aedd715659bf971b194",
       "matchesLocal": true
     },
     {
-      "path": "fonts/dm-sans-600.ttf",
+      "path": "assets/three-BlqIXPx0.js",
       "status": 200,
-      "bytes": 48280,
-      "sha256": "b79a2ea7a38f33fd96a282fadb9ce97626bb0724a44d21075859f0e50239993a",
-      "matchesLocal": true
-    },
-    {
-      "path": "assets/index-BJ0Qu4dP.js",
-      "status": 200,
-      "bytes": 39997,
-      "sha256": "eb80dce02f9b9a9a3da86dfd5bf6943c4c6ec6c7e0a9a7355e0d0acbec6be317",
-      "matchesLocal": true
-    },
-    {
-      "path": "assets/three-PWkdOKHm.js",
-      "status": 200,
-      "bytes": 484802,
-      "sha256": "f43d6843311c46df4958cfe5afa402f0696fcb70034b802e0c41cdf1108113c4",
-      "matchesLocal": true
-    },
-    {
-      "path": "assets/index-BqxeWfkG.css",
-      "status": 200,
-      "bytes": 9219,
-      "sha256": "e8e79c19aff3150fdb73b81b8d758087af2f7cf9f156ac4a0b486becb21f9a65",
+      "sha256": "3e41fa2982446a48c194be35c634b55180c339c9760332ae4c53c9ee6d34b95a",
       "matchesLocal": true
     }
   ],
   "browser": {
     "errors": [],
-    "attackAttribute": true,
-    "weaponsStop": true,
-    "weaponsResume": true,
-    "metrics": {
+    "retro": {
+      "style": "retro",
+      "resolution": [
+        320,
+        684
+      ],
       "alive": 600,
-      "visible": 227,
+      "visible": 279,
       "target": 600,
-      "kills": 689,
-      "corpses": 400,
-      "particles": 95,
-      "drawCalls": 29,
-      "triangles": 491336,
-      "fps": 58,
-      "frameP95": 16.799999999999272,
-      "simP95": 0.5,
-      "renderP95": 1.9000000059604645,
+      "kills": 18,
+      "corpses": 18,
+      "particles": 87,
+      "drawCalls": 27,
+      "triangles": 355064,
+      "fps": 56,
+      "frameP95": 16.799999999999955,
+      "simP95": 0.4000000059604645,
+      "renderP95": 1,
       "geometries": 29,
       "textures": 2,
-      "neighborChecks": 8020,
-      "elapsed": 17.075999999999926
-    }
+      "neighborChecks": 7757,
+      "elapsed": 2.0966
+    },
+    "original": "original"
   }
 }
