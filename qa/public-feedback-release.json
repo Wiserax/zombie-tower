@@ -1,0 +1,136 @@
+{
+  "date": "2026-09-22T18:58:55.104Z",
+  "base": "https://wiserax.github.io/zombie-tower/",
+  "files": [
+    {
+      "asset": "./assets/index-BHFMaTVF.js",
+      "bytes": 88388,
+      "sha256": "f9bacea71da16341e15f0585be7c81d0bb99b82cdd2a37e2a576772589952707"
+    },
+    {
+      "asset": "./assets/three-CfjMwvjd.js",
+      "bytes": 488739,
+      "sha256": "3c4880d4db2451595c1588e7da642fee21ac4f7725bcbc6f478aef11e6d5668a"
+    },
+    {
+      "asset": "./assets/index-CWnOIGco.css",
+      "bytes": 16866,
+      "sha256": "854eb3e62fbb6bab3485d63be4b82486f92252305fdbe73beab2c567728825c2"
+    },
+    {
+      "asset": "Deadwood.html",
+      "bytes": 5632965,
+      "sha256": "e68956458283e1d54e376e1731bf884d15791e93dc876dc51337a2dac8b5d09b"
+    }
+  ],
+  "browsers": [
+    {
+      "name": "Chrome",
+      "before": {
+        "metrics": {
+          "style": "retro",
+          "pixelFilter": false,
+          "resolution": [
+            624,
+            1350
+          ],
+          "alive": 600,
+          "visible": 335,
+          "rendered": 385,
+          "wallStrikes": 77,
+          "wallAttackers": 31,
+          "electrified": 1,
+          "hitSparks": 2,
+          "lightEvents": 1,
+          "healthBars": 77,
+          "damageLabels": 7,
+          "damageGlyphs": 14,
+          "streak": 384,
+          "bestStreak": 384,
+          "impactFlashes": 0,
+          "muzzleFlashes": 1,
+          "target": 600,
+          "kills": 384,
+          "corpses": 189,
+          "particles": 255,
+          "drawCalls": 42,
+          "triangles": 368786,
+          "fps": 60,
+          "frameP95": 16.700000000000728,
+          "simP95": 1.100000023841858,
+          "renderP95": 2.5999999940395355,
+          "geometries": 47,
+          "textures": 4,
+          "neighborChecks": 6393,
+          "elapsed": 12.072800000005934
+        },
+        "healthMode": "damaged"
+      },
+      "errors": [],
+      "failedRequests": [],
+      "checks": [
+        "public 0.4.0",
+        "healthy startup",
+        "damaged HP bars",
+        "real kills and streak",
+        "overcharge",
+        "pause/resume",
+        "audio opt-in/decode/mute"
+      ]
+    },
+    {
+      "name": "WebKit",
+      "before": {
+        "metrics": {
+          "style": "retro",
+          "pixelFilter": false,
+          "resolution": [
+            624,
+            1350
+          ],
+          "alive": 600,
+          "visible": 343,
+          "rendered": 375,
+          "wallStrikes": 68,
+          "wallAttackers": 17,
+          "electrified": 2,
+          "hitSparks": 1,
+          "lightEvents": 0,
+          "healthBars": 70,
+          "damageLabels": 6,
+          "damageGlyphs": 4,
+          "streak": 403,
+          "bestStreak": 403,
+          "impactFlashes": 0,
+          "muzzleFlashes": 0,
+          "target": 600,
+          "kills": 403,
+          "corpses": 177,
+          "particles": 245,
+          "drawCalls": 42,
+          "triangles": 355214,
+          "fps": 30,
+          "frameP95": 34,
+          "simP95": 3,
+          "renderP95": 3,
+          "geometries": 47,
+          "textures": 4,
+          "neighborChecks": 6776,
+          "elapsed": 12.051000000000014
+        },
+        "healthMode": "damaged"
+      },
+      "errors": [],
+      "failedRequests": [],
+      "checks": [
+        "public 0.4.0",
+        "healthy startup",
+        "damaged HP bars",
+        "real kills and streak",
+        "overcharge",
+        "pause/resume",
+        "audio opt-in/decode/mute"
+      ]
+    }
+  ]
+}
