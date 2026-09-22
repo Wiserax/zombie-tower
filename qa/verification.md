@@ -45,3 +45,5 @@ Visual quality still requires the user's judgment against the references. Sound 
 - Source sound pack licenses are preserved under `public/audio/`. Original score and edited effects are reproducible with `scripts/design-audio.py`.
 
 Additional lifecycle checks passed: failed-download retry, synthetic page-background suspend/resume, and sound from a real local `file://` standalone URL.
+
+Public release verified at https://wiserax.github.io/zombie-tower/?v=0.3.0 after Pages workflow 35744470436 succeeded. SHA-256 of index, standalone HTML, all runtime bundles and all 22 audio files matches the local tested build. A fresh Chrome phone viewport verified silent startup, opt-in playback, 22 decoded buffers / three loops, overcharge, scrolling sound controls, style changes and mute/suspend without page errors. Details in `qa/public-release.json`.

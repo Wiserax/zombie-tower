@@ -1,65 +1,257 @@
 {
-  "date": "2026-09-22T14:13:34.383Z",
+  "date": "2026-09-22T15:05:44.476Z",
   "base": "https://wiserax.github.io/zombie-tower/",
-  "commit": "87657bb",
-  "version": "0.2.1",
+  "commit": "6be16bfa21cbb1422711b49725d9237d231a46a3",
+  "version": "0.3.0",
   "results": [
     {
       "path": "index.html",
       "status": 200,
-      "sha256": "b64d2b881306fe53f9fa85149e955cb723e1d7c9cae75289e6e96bed83082dc9",
+      "sha256": "87a3781289e315db78e73140671d1ed9d32069d919ffa65b0ea5a129593142fb",
       "matchesLocal": true
     },
     {
       "path": "Deadwood.html",
       "status": 200,
-      "sha256": "f4c0f752283b5be173eae3ac54f561b83c34e97731673334f98b0aaadc3ea131",
+      "sha256": "a912fcb89c48aa667bd86ac04af8764134d818be56d3c6e2a2dc85d44eb11114",
       "matchesLocal": true
     },
     {
-      "path": "assets/index-Bo-z8p1t.css",
+      "path": "assets/index-DfqodIxh.css",
       "status": 200,
-      "sha256": "7d9fc66cb5c7c5b4ba13d69ffa7f3a77bf0cf141efdd6bdb2c6eda26f6bb7b97",
+      "sha256": "fdf7110b140080639bb3a85e7c279fbc235787793e12927063f90f2af272c63b",
       "matchesLocal": true
     },
     {
-      "path": "assets/index-DVW-hXZb.js",
+      "path": "assets/index-WUeHnLHW.js",
       "status": 200,
-      "sha256": "4cb52aa1785b960dc9a6369b896bf83f65795cbbb7a85dfa19f937ac43246349",
+      "sha256": "79534e79df30d14ea5cce45d4c2eb4136badec283072ba45d309d2f508ca6d6e",
       "matchesLocal": true
     },
     {
-      "path": "assets/three-hmleH5jV.js",
+      "path": "assets/three-B8LEEeVh.js",
       "status": 200,
-      "sha256": "f570261f24f44ba87f2444828d7a85e97e686f9ae93a49fadfb1f2faa084ab9b",
+      "sha256": "51941e952ccd0c26dbe7a092e362223e10fd1904980989d7ae2ac5e862b39af3",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/ballista.wav",
+      "status": 200,
+      "sha256": "3f085b45e48911b579040cb2b8fcd8a87774a171408673d77f653dcc628ddd60",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/boom0.wav",
+      "status": 200,
+      "sha256": "217581da6a142f26a91f941a35242a9c1b29e8eb82bb6fae12af957a6d1520f2",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/boom1.wav",
+      "status": 200,
+      "sha256": "6adf23a47d4a79441b7a138cedcc362f574cf368420ff88eda7894a9dc777cfb",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/close.wav",
+      "status": 200,
+      "sha256": "390520fa2848bf31231f48fe6db753cdc712f71e91cfffdfa18c6c73b77b0604",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/death.wav",
+      "status": 200,
+      "sha256": "b59e5532d52a87a5d1f90418ef531910ac3011bd65a5fc5a82b508b398cc5bfb",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/focus.wav",
+      "status": 200,
+      "sha256": "6c0e4020e585bdf6ee3e357d9a8cb91fb67d863926c6acf0427c0113cf779828",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/gun0.wav",
+      "status": 200,
+      "sha256": "ba86a4d115a4d8cebd0b17d49c4447e9240c4a8b790e34b22351145d3f162549",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/gun1.wav",
+      "status": 200,
+      "sha256": "9d1c09e7e69aec4da657d8596964c03e419ea25b0ae72e6ddc8b56b98e289404",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/gun2.wav",
+      "status": 200,
+      "sha256": "e08ae00bfceb3fa708cb4c45ed606982b6210772c1a664de877e1beec2d1c6c4",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/hit.wav",
+      "status": 200,
+      "sha256": "ed571ab5999224cbd648f3a6ea6bed65a9ee8bc70b783f139a9da51190418592",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/horde0.wav",
+      "status": 200,
+      "sha256": "fe5e4876dea84d606c93924cb2138bb709ca5c1ca657e2d9463b27d929f89e77",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/horde1.wav",
+      "status": 200,
+      "sha256": "b4e75e5bb25d760649eb812a3bd89da4425a7e3be4de192888d12623dc3cc8fa",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/launch.wav",
+      "status": 200,
+      "sha256": "15ec9e85cec8577110d995e495bdd9c99ce313aa3a7ad0be2cf080f1f94840b9",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/open.wav",
+      "status": 200,
+      "sha256": "d2716a2b4804b77ba99b9aeb9d1c32393bef6a9f00af2df99bab1f7c626cfec4",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/overcharge.wav",
+      "status": 200,
+      "sha256": "75dab93786324fc1028697016521ef61a054a17c3328fb118ac8d6f4f836eb90",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/pack.wav",
+      "status": 200,
+      "sha256": "4dc79dae45864f6fcf4a58173adff733381b7e9e1b648480a8c9d3b8f40fbe22",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/ready.wav",
+      "status": 200,
+      "sha256": "9ef05c209251c3f46e0342fdfe4dc5be9ff6707011cf8233fe32882f4b0be161",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/siege-bed.mp3",
+      "status": 200,
+      "sha256": "307126b5fe5305ce2c1df937e7cb81b7504c191a981f998e99c09888215dbf07",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/siege-drums.mp3",
+      "status": 200,
+      "sha256": "216f01d555f52f22421fb361b351cbf87156d4143bb71a52e88ee195f09b8e2a",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/tesla.wav",
+      "status": 200,
+      "sha256": "1854cf6b9fe721bd9174139b30419e2a02583833b8e947d77750cb270ba75674",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/ui.wav",
+      "status": 200,
+      "sha256": "a114770749549156e9a9326ac4903277ae4c3759fcae91fce64db808cf03506c",
+      "matchesLocal": true
+    },
+    {
+      "path": "audio/wind.mp3",
+      "status": 200,
+      "sha256": "8d635d763687de4d89d3ca0f42bbdee839254b38ddcacc9e1bac1fcf1730ff40",
       "matchesLocal": true
     }
   ],
   "browser": {
     "errors": [],
-    "retro": {
-      "style": "retro",
-      "pixelFilter": false,
-      "resolution": [
-        422,
-        902
-      ],
-      "alive": 600,
-      "visible": 279,
-      "target": 600,
-      "kills": 18,
-      "corpses": 18,
-      "particles": 80,
-      "drawCalls": 33,
-      "triangles": 362544,
-      "fps": 56,
-      "frameP95": 16.800000000000182,
-      "simP95": 0.5,
-      "renderP95": 1.2000000178813934,
-      "geometries": 35,
-      "textures": 3,
-      "neighborChecks": 7807,
-      "elapsed": 2.0799
+    "initial": {
+      "graphics": {
+        "style": "retro",
+        "pixelFilter": false,
+        "resolution": [
+          624,
+          1350
+        ],
+        "alive": 600,
+        "visible": 271,
+        "rendered": 335,
+        "impactFlashes": 0,
+        "muzzleFlashes": 1,
+        "target": 600,
+        "kills": 18,
+        "corpses": 18,
+        "particles": 78,
+        "drawCalls": 34,
+        "triangles": 234576,
+        "fps": 60,
+        "frameP95": 16.700000000000273,
+        "simP95": 0.4000000059604645,
+        "renderP95": 1.199999988079071,
+        "geometries": 38,
+        "textures": 3,
+        "neighborChecks": 7789,
+        "elapsed": 2.0499200000000015
+      },
+      "audio": {
+        "enabled": false,
+        "ready": false,
+        "state": "uninitialized",
+        "voices": 0,
+        "peakVoices": 0,
+        "buffers": 0,
+        "loops": 0,
+        "counts": {},
+        "dropped": 0
+      }
+    },
+    "enabled": {
+      "enabled": true,
+      "ready": true,
+      "state": "running",
+      "voices": 7,
+      "peakVoices": 10,
+      "buffers": 22,
+      "loops": 3,
+      "counts": {
+        "open": 1,
+        "gun": 18,
+        "death": 2,
+        "pack": 1,
+        "overcharge": 1,
+        "boom": 2,
+        "tesla": 2,
+        "ballista": 1,
+        "launch": 2
+      },
+      "dropped": 0
+    },
+    "muted": {
+      "enabled": false,
+      "ready": true,
+      "state": "suspended",
+      "voices": 7,
+      "peakVoices": 10,
+      "buffers": 22,
+      "loops": 3,
+      "counts": {
+        "open": 2,
+        "gun": 21,
+        "death": 2,
+        "pack": 1,
+        "overcharge": 1,
+        "boom": 2,
+        "tesla": 2,
+        "ballista": 2,
+        "launch": 2,
+        "ui": 1,
+        "close": 1
+      },
+      "dropped": 0
     },
     "original": "original"
   }
