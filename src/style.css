@@ -302,6 +302,7 @@ button:active {
   background: #a96e59;
 }
 #overcharge {
+  min-width: 0;
   flex: 1.65;
   display: flex;
   align-items: center;
@@ -611,6 +612,15 @@ button:active {
   }
 }
 @media (max-width: 360px) {
+  #overcharge {
+    font-size: 12px;
+  }
+  #overcharge svg {
+    display: none;
+  }
+  .weapon span {
+    font-size: 9px;
+  }
   .chapter {
     gap: 6px;
     padding: 6px;

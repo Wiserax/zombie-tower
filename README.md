@@ -20,7 +20,7 @@ npm run dev
 
 Open the URL printed by Vite. `npm run build` produces a static `dist/` directory suitable for GitHub Pages. No server, login, analytics, or external asset service is required at runtime.
 
-The build also creates **`dist/Deadwood.html`**, a self-contained 637 KiB playable with its scripts, styles, fonts, and generated art embedded. It was checked through a local `file://` URL in Chrome. Mobile file viewers vary; the hosted URL is the simplest way to play on a phone.
+The build also creates **`dist/Deadwood.html`**, a self-contained 651 KiB playable with its scripts, styles, fonts, and generated art embedded. It was checked through a local `file://` URL in Chrome. Mobile file viewers vary; the hosted URL is the simplest way to play on a phone.
 
 ## Verify
 
