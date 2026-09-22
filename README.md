@@ -28,6 +28,13 @@ The build also creates **`dist/Deadwood.html`**, a self-contained approximately 
 
 ## Verify
 
+Build once and serve the frozen output in a separate terminal:
+
+```sh
+npm run build
+python3 -m http.server 5197 --directory dist
+```
+
 ```sh
 npm test
 python3 tests/wiki_export_test.py
@@ -35,10 +42,12 @@ node scripts/verify-browser.mjs
 node scripts/verify-portrait.mjs
 node scripts/verify-graphics.mjs
 node scripts/verify-audio.mjs
+node scripts/verify-audio-lifecycle.mjs
 node scripts/verify-feedback.mjs
 node scripts/verify-feedback-lifecycle.mjs
+node scripts/verify-siege-pressure.mjs
 node scripts/profile-feedback.mjs
-SOAK_ENGINE=webkit SOAK_SECONDS=1200 node scripts/soak-feedback.mjs
+SOAK_ENGINE=webkit SOAK_SECONDS=600 node scripts/soak-feedback.mjs
 SOAK_ENGINE=chrome SOAK_SECONDS=600 node scripts/soak-feedback.mjs
 ```
 

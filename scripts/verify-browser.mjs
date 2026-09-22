@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 import fs from "node:fs/promises";
-const base = process.env.BASE_URL || "http://localhost:5196";
+const base = process.env.BASE_URL || "http://localhost:5197";
 const b = await chromium.launch({ channel: "chrome", headless: true });
 const errors = [],
   results = [];
