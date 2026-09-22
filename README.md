@@ -22,7 +22,7 @@ npm run dev
 
 Open the URL printed by Vite. `npm run build` produces a static `dist/` directory suitable for GitHub Pages. No server, login, analytics, or external asset service is required at runtime.
 
-The build also creates **`dist/Deadwood.html`**, a self-contained 655 KiB playable with its scripts, styles, fonts, and generated art embedded. It was checked through a local `file://` URL in Chrome. Mobile file viewers vary; the hosted URL is the simplest way to play on a phone.
+The build also creates **`dist/Deadwood.html`**, a self-contained 660 KiB playable with its scripts, styles, fonts, and generated art embedded. It was checked through a local `file://` URL in Chrome. Mobile file viewers vary; the hosted URL is the simplest way to play on a phone.
 
 ## Verify
 
@@ -35,7 +35,7 @@ node scripts/verify-portrait.mjs
 
 The browser verifier uses an installed Chrome, runs desktop and portrait emulation, exercises pause/overcharge/settings, captures screenshots, and writes `qa/performance.json`. Set `BASE_URL` to test a deployed build. Physical-phone performance remains a separate test.
 
-Desktop uses a portrait phone frame; mobile portrait fills the screen. Version **0.2.0** adds a pixel-rendered battlefield, chunky zombie silhouettes and a cooler emerald palette. UI remains sharp. See the [visual study](docs/retro-visual-study.md).
+Desktop uses a portrait phone frame; mobile portrait fills the screen. Version **0.2.1** adds a sharp retro battlefield (coarse pixel rendering is optional), chunky zombie silhouettes and a cooler emerald palette. UI remains sharp. See the [visual study](docs/retro-visual-study.md).
 
 ## Implementation
 

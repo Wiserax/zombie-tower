@@ -640,32 +640,3 @@ export function fortress(scene) {
   }
   return { base, lights, turrets, ballistas };
 }
-
-// Small, deliberately painted texel clusters; one reusable GPU texture.
-export function retroGroundTexture() {
-  const canvas = document.createElement("canvas");
-  canvas.width = canvas.height = 128;
-  const ctx = canvas.getContext("2d");
-  ctx.fillStyle = "#286243";
-  ctx.fillRect(0, 0, 128, 128);
-  let seed = 173;
-  const random = () =>
-    (seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296;
-  const colors = ["#2b6546", "#265e40", "#2d6847", "#296345", "#2f6847"];
-  for (let i = 0; i < 380; i++) {
-    ctx.fillStyle = colors[(random() * colors.length) | 0];
-    ctx.fillRect(
-      (random() * 128) | 0,
-      (random() * 128) | 0,
-      3 + ((random() * 9) | 0),
-      1 + ((random() * 3) | 0),
-    );
-  }
-  const texture = new T.CanvasTexture(canvas);
-  texture.colorSpace = T.SRGBColorSpace;
-  texture.magFilter = texture.minFilter = T.NearestFilter;
-  texture.generateMipmaps = false;
-  texture.wrapS = texture.wrapT = T.RepeatWrapping;
-  texture.repeat.set(5, 5);
-  return texture;
-}

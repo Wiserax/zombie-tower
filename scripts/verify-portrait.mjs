@@ -36,9 +36,17 @@ for (const [width, height] of [
       controls: box(".top-controls"),
       footer: box("footer"),
       style: __lab.view.style,
+      resolution: [__lab.view.canvas.width, __lab.view.canvas.height],
+      pixelFilter: __lab.view.pixelFilter,
+      dpr: __lab.view.renderer.getPixelRatio(),
     };
   });
   assert.equal(layout.style, "retro");
+  assert.equal(layout.pixelFilter, false);
+  assert(
+    layout.resolution[0] >= Math.floor(layout.canvas.w * layout.dpr) - 1,
+    "Default render unexpectedly low resolution",
+  );
   assert(layout.canvas.h > layout.canvas.w, "Portrait canvas");
   assert(layout.chapter.right <= layout.controls.x, "Header collision");
   assert(layout.footer.bottom <= layout.shell.bottom, "Footer outside shell");
@@ -71,6 +79,13 @@ for (const [width, height] of [
     "Offset input misses world",
   );
   await page.locator("#settings-toggle").click();
+  await page.locator("#pixel-toggle").check();
+  assert(
+    await page.evaluate(() => __lab.view.canvas.width <= 320),
+    "Pixel opt-in not applied",
+  );
+  await page.locator("#pixel-toggle").uncheck();
+  assert.equal(await page.evaluate(() => __lab.view.pixelFilter), false);
   await page.locator('[data-style="original"]').click();
   assert.equal(await page.evaluate(() => __lab.view.style), "original");
   await page.locator('[data-style="retro"]').click();

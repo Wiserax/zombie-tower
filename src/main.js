@@ -70,6 +70,10 @@ document.querySelectorAll("[data-style]").forEach((button) => {
     });
   };
 });
+$("#pixel-toggle").onchange = (e) => {
+  view.pixelFilter = e.target.checked;
+  view.resize();
+};
 $("#stats-toggle").onchange = (e) =>
   ($("#performance").hidden = !e.target.checked);
 $("#shake-toggle").checked = view.shakeEnabled;
@@ -139,6 +143,7 @@ function percentile(a, p) {
 function metrics() {
   return {
     style: view.style,
+    pixelFilter: view.pixelFilter,
     resolution: [view.canvas.width, view.canvas.height],
     alive: h.alive,
     visible: view.visible,

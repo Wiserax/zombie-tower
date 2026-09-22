@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-22T13:56:27.538Z",
+  "date": "2026-09-22T14:09:51.449Z",
   "base": "http://localhost:5197",
   "results": [
     {
@@ -46,16 +46,22 @@
           "right": 306,
           "bottom": 554
         },
-        "style": "retro"
+        "style": "retro",
+        "resolution": [
+          320,
+          568
+        ],
+        "pixelFilter": false,
+        "dpr": 1
       },
       "resource": {
         "before": {
-          "geometries": 35,
-          "textures": 3
+          "geometries": 41,
+          "textures": 4
         },
         "after": {
-          "geometries": 35,
-          "textures": 3
+          "geometries": 41,
+          "textures": 4
         }
       }
     },
@@ -103,16 +109,22 @@
           "right": 376,
           "bottom": 830
         },
-        "style": "retro"
+        "style": "retro",
+        "resolution": [
+          390,
+          844
+        ],
+        "pixelFilter": false,
+        "dpr": 1
       },
       "resource": {
         "before": {
-          "geometries": 35,
-          "textures": 3
+          "geometries": 41,
+          "textures": 4
         },
         "after": {
-          "geometries": 35,
-          "textures": 3
+          "geometries": 41,
+          "textures": 4
         }
       }
     },
@@ -160,16 +172,22 @@
           "right": 917,
           "bottom": 937
         },
-        "style": "retro"
+        "style": "retro",
+        "resolution": [
+          422,
+          902
+        ],
+        "pixelFilter": false,
+        "dpr": 1
       },
       "resource": {
         "before": {
-          "geometries": 35,
-          "textures": 3
+          "geometries": 41,
+          "textures": 4
         },
         "after": {
-          "geometries": 35,
-          "textures": 3
+          "geometries": 41,
+          "textures": 4
         }
       }
     },
@@ -217,16 +235,22 @@
           "right": 1157,
           "bottom": 977
         },
-        "style": "retro"
+        "style": "retro",
+        "resolution": [
+          422,
+          902
+        ],
+        "pixelFilter": false,
+        "dpr": 1
       },
       "resource": {
         "before": {
-          "geometries": 35,
-          "textures": 3
+          "geometries": 41,
+          "textures": 4
         },
         "after": {
-          "geometries": 35,
-          "textures": 3
+          "geometries": 41,
+          "textures": 4
         }
       }
     },
@@ -274,16 +298,22 @@
           "right": 558,
           "bottom": 385
         },
-        "style": "retro"
+        "style": "retro",
+        "resolution": [
+          300,
+          390
+        ],
+        "pixelFilter": false,
+        "dpr": 1
       },
       "resource": {
         "before": {
-          "geometries": 35,
-          "textures": 3
+          "geometries": 41,
+          "textures": 4
         },
         "after": {
-          "geometries": 35,
-          "textures": 3
+          "geometries": 41,
+          "textures": 4
         }
       }
     }

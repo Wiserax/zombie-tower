@@ -27,3 +27,8 @@ Visual quality still requires the user's judgment against the references. Sound 
 - Retro and Original share simulation state but use separately cached model and texture variants. After warming both modes, 20 switches do not increase geometry/texture counts.
 - Inspected actual desktop, 390×844 and 320×568 screenshots. Ground texture was simplified after the first screenshot showed excess noise.
 - Density performance results have been refreshed for the portrait Retro renderer in `performance.json`; the two-minute 1,600-target soak was also repeated for 0.2.0 (`stability.json`): all 12 samples recorded 60 FPS, 29 geometries and 2 textures.
+
+## 0.2.1 resolution correction
+
+- Default Retro uses canvas CSS size times DPR (cap 1.6), not the previous 320-pixel buffer. Coarse pixels require explicit opt-in. The portrait verifier asserts the default drawing-buffer width and exercises the filter toggle.
+- Verified additional crown geometry, animated banners, world-aligned paths and low terrain dressing in desktop/phone screenshots. Density benchmarks refreshed for this sharper rendering.

@@ -1,12 +1,12 @@
 import * as T from "three";
-import {
-  zombieGeometry,
-  environment,
-  fortress,
-  retroGroundTexture,
-} from "./art.js";
+import { zombieGeometry, environment, fortress } from "./art.js";
 import { CAP } from "./sim.js";
 import { Effects } from "./fx.js";
+import {
+  battlefieldTexture,
+  retroLandmarks,
+  retroFortress,
+} from "./retro-art.js";
 const dummy = new T.Object3D(),
   color = new T.Color();
 export class Battlefield {
@@ -14,6 +14,7 @@ export class Battlefield {
     this.horde = horde;
     this.canvas = canvas;
     this.style = "retro";
+    this.pixelFilter = false;
     this.time = 0;
     this.zoom = 1;
     this.quality = "high";
@@ -58,9 +59,11 @@ export class Battlefield {
     const terrain = environment(this.scene);
     this.terrain = terrain;
     this.originalGround = terrain.ground.material.map;
-    this.retroGround = retroGroundTexture();
+    this.retroGround = battlefieldTexture();
+    this.retroScenery = retroLandmarks(this.scene);
     horde.setObstacles(terrain.obstacles);
     this.fort = fortress(this.scene);
+    this.retroFort = retroFortress(this.scene);
     this.fx = new Effects(this.scene);
     this.units = [];
     this.corpses = [];
@@ -161,7 +164,9 @@ export class Battlefield {
   setStyle(style) {
     this.style = style === "original" ? "original" : "retro";
     const retro = this.style === "retro";
-    this.canvas.classList.toggle("retro", retro);
+    this.canvas.classList.toggle("retro", retro && this.pixelFilter);
+    this.retroScenery.visible = retro;
+    this.retroFort.group.visible = retro;
     this.ambient.color.setHex(retro ? 0xb9e5ff : 0xd3e7e7);
     this.ambient.groundColor.setHex(retro ? 0x39345e : 0x4b422e);
     this.ambient.intensity = retro ? 2.6 : 2.1;
@@ -185,12 +190,15 @@ export class Battlefield {
   resize() {
     const w = this.canvas.parentElement.clientWidth,
       h = this.canvas.parentElement.clientHeight;
-    const retro = this.style === "retro";
-    this.renderer.setPixelRatio(retro ? 1 : Math.min(devicePixelRatio, 1.6));
-    const width = retro ? Math.min(320, Math.round(w)) : Math.round(w);
+    const pixelated = this.style === "retro" && this.pixelFilter;
+    this.canvas.classList.toggle("retro", pixelated);
+    this.renderer.setPixelRatio(
+      pixelated ? 1 : Math.min(devicePixelRatio, 1.6),
+    );
+    const width = pixelated ? Math.min(320, Math.round(w)) : Math.round(w);
     this.renderer.setSize(
       width,
-      retro ? Math.round((width * h) / w) : Math.round(h),
+      pixelated ? Math.round((width * h) / w) : Math.round(h),
       false,
     );
     const aspect = w / h,
@@ -224,6 +232,10 @@ export class Battlefield {
   }
   update(dt) {
     this.time += dt;
+    this.retroFort.time.value = this.time;
+    this.retroFort.core.rotation.set(this.time * 0.4, this.time * 0.7, 0);
+    this.retroFort.halo.rotation.z = this.time * 0.6;
+    this.retroFort.core.scale.setScalar(1 + Math.sin(this.time * 3) * 0.08);
     this.shake = Math.max(0, this.shake - dt * 3);
     this.camera.position.x =
       30 +
