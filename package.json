@@ -1,0 +1,19 @@
+{
+  "name": "zombie-tower",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5196",
+    "build": "vite build && node scripts/build-standalone.mjs",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0",
+    "prettier": "^3.6.2",
+    "vite": "^7.3.6"
+  }
+}

@@ -1,0 +1,43 @@
+# Deadwood — Zombie Tower visual prototype
+
+A stationary, industrial fortress holds off a dense animated zombie horde. This is a **visual combat study**, not the complete progression game.
+
+## Play
+
+- Defenses fire automatically. Tap the battlefield to focus fire for five seconds.
+- **Overcharge** (or Space) clears a large area with chained electrical impacts.
+- Toggle gun/crossbow, Tesla, and mortar batteries to compare their effects.
+- Open **Scene** to change crowd density (300–1,600), zoom, screen shake, and performance counters.
+- Sound starts **off**. Pause is available at the upper right.
+- If the bastion falls, the visual lab automatically starts another last stand.
+
+## Run locally
+
+```sh
+npm ci
+npm run dev
+```
+
+Open the URL printed by Vite. `npm run build` produces a static `dist/` directory suitable for GitHub Pages. No server, login, analytics, or external asset service is required at runtime.
+
+The build also creates **`dist/Deadwood.html`**, a self-contained 637 KiB playable with its scripts, styles, fonts, and generated art embedded. It was checked through a local `file://` URL in Chrome. Mobile file viewers vary; the hosted URL is the simplest way to play on a phone.
+
+## Verify
+
+```sh
+npm test
+python3 tests/wiki_export_test.py
+node scripts/verify-browser.mjs
+```
+
+The browser verifier uses an installed Chrome, runs desktop and portrait emulation, exercises pause/overcharge/settings, captures screenshots, and writes `qa/performance.json`. Set `BASE_URL` to test a deployed build. Physical-phone performance remains a separate test.
+
+## Implementation
+
+- Three.js / WebGL2, instanced zombie geometry, shader-driven gait.
+- Typed-array horde simulation, bounded spatial-neighbor queries.
+- Fixed-capacity debris, glow and smoke pools; bounded corpse/scorch retention.
+- Procedural original models and textures. No extracted commercial art or video files in this repository.
+- Firstfire's font/visual-language reuse: Lilita One and DM Sans, with OFL licenses under `public/fonts/`.
+
+See [visual brief](docs/visual-brief.md), [technology findings](docs/technology.md), and [reference archive](docs/reference-archive.md).
