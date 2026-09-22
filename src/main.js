@@ -61,6 +61,15 @@ document.querySelectorAll("[data-density]").forEach(
         .forEach((x) => x.classList.toggle("selected", x === b));
     }),
 );
+document.querySelectorAll("[data-style]").forEach((button) => {
+  button.onclick = () => {
+    view.setStyle(button.dataset.style);
+    document.querySelectorAll("[data-style]").forEach((b) => {
+      b.classList.toggle("selected", b === button);
+      b.setAttribute("aria-pressed", b === button);
+    });
+  };
+});
 $("#stats-toggle").onchange = (e) =>
   ($("#performance").hidden = !e.target.checked);
 $("#shake-toggle").checked = view.shakeEnabled;
@@ -80,14 +89,15 @@ $("#battlefield").addEventListener("pointerdown", (e) => {
     combat.focus = { x: p.x, z: p.z };
     combat.focusTime = 5;
     const m = $("#focus-marker");
-    m.style.left = e.clientX + "px";
-    m.style.top = e.clientY + "px";
+    const rect = $("#battlefield").getBoundingClientRect();
+    m.style.left = e.clientX - rect.left + "px";
+    m.style.top = e.clientY - rect.top + "px";
     m.classList.remove("show");
     void m.offsetWidth;
     m.classList.add("show");
   }
 });
-addEventListener("resize", () => view.resize());
+new ResizeObserver(() => view.resize()).observe($("#game-shell"));
 document.addEventListener("visibilitychange", () => {
   last = performance.now();
 });
@@ -128,6 +138,8 @@ function percentile(a, p) {
 }
 function metrics() {
   return {
+    style: view.style,
+    resolution: [view.canvas.width, view.canvas.height],
     alive: h.alive,
     visible: view.visible,
     target: h.target,

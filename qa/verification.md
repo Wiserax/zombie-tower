@@ -19,3 +19,11 @@
 No physical Android/iPhone measurement has been made. CPU render-submission time is not GPU execution time. The benchmark's 300-unit setup removes the initial 600-unit fixture before refilling, so its cumulative kill count is not a gameplay result. The lab automatically resets a breached bastion and is not evidence of final survival balance or retention.
 
 Visual quality still requires the user's judgment against the references. Sound is an optional basic effect sketch and starts off; this was a visual iteration, not the final audio pass.
+
+
+## 0.2.0 portrait / retro follow-up
+
+- Added `scripts/verify-portrait.mjs`: five viewport sizes, including 1920×1080 and narrow/short screens; portrait canvas bounds, header separation, footer bounds, offset pointer-to-world mapping, real style buttons and repeated GPU-resource reuse checks pass. Evidence: `portrait.json`.
+- Retro and Original share simulation state but use separately cached model and texture variants. After warming both modes, 20 switches do not increase geometry/texture counts.
+- Inspected actual desktop, 390×844 and 320×568 screenshots. Ground texture was simplified after the first screenshot showed excess noise.
+- Density performance results have been refreshed for the portrait Retro renderer in `performance.json`; the two-minute 1,600-target soak was also repeated for 0.2.0 (`stability.json`): all 12 samples recorded 60 FPS, 29 geometries and 2 textures.

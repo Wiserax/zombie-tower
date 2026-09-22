@@ -9,7 +9,7 @@ A stationary, industrial fortress holds off a dense animated zombie horde. This 
 - Defenses fire automatically. Tap the battlefield to focus fire for five seconds.
 - **Overcharge** (or Space) clears a large area with chained electrical impacts.
 - Toggle gun/crossbow, Tesla, and mortar batteries to compare their effects.
-- Open **Scene** to change crowd density (300–1,600), zoom, screen shake, and performance counters.
+- Open **Scene** to compare **Retro / Original** visuals, change crowd density (300–1,600), zoom, screen shake, and performance counters.
 - Sound starts **off**. Pause is available at the upper right.
 - If the bastion falls, the visual lab automatically starts another last stand.
 
@@ -22,7 +22,7 @@ npm run dev
 
 Open the URL printed by Vite. `npm run build` produces a static `dist/` directory suitable for GitHub Pages. No server, login, analytics, or external asset service is required at runtime.
 
-The build also creates **`dist/Deadwood.html`**, a self-contained 651 KiB playable with its scripts, styles, fonts, and generated art embedded. It was checked through a local `file://` URL in Chrome. Mobile file viewers vary; the hosted URL is the simplest way to play on a phone.
+The build also creates **`dist/Deadwood.html`**, a self-contained 655 KiB playable with its scripts, styles, fonts, and generated art embedded. It was checked through a local `file://` URL in Chrome. Mobile file viewers vary; the hosted URL is the simplest way to play on a phone.
 
 ## Verify
 
@@ -30,9 +30,12 @@ The build also creates **`dist/Deadwood.html`**, a self-contained 651 KiB playab
 npm test
 python3 tests/wiki_export_test.py
 node scripts/verify-browser.mjs
+node scripts/verify-portrait.mjs
 ```
 
 The browser verifier uses an installed Chrome, runs desktop and portrait emulation, exercises pause/overcharge/settings, captures screenshots, and writes `qa/performance.json`. Set `BASE_URL` to test a deployed build. Physical-phone performance remains a separate test.
+
+Desktop uses a portrait phone frame; mobile portrait fills the screen. Version **0.2.0** adds a pixel-rendered battlefield, chunky zombie silhouettes and a cooler emerald palette. UI remains sharp. See the [visual study](docs/retro-visual-study.md).
 
 ## Implementation
 

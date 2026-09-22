@@ -36,7 +36,7 @@ button:focus-visible {
   height: 100%;
 }
 .vignette {
-  position: fixed;
+  position: absolute;
   inset: 0;
   pointer-events: none;
   background: radial-gradient(
@@ -46,7 +46,7 @@ button:focus-visible {
   );
 }
 header {
-  position: fixed;
+  position: absolute;
   top: max(20px, env(safe-area-inset-top));
   left: 24px;
   right: 24px;
@@ -109,7 +109,7 @@ h1 {
   color: #fff3d2;
 }
 .battle-stats {
-  position: fixed;
+  position: absolute;
   top: 27px;
   left: 50%;
   transform: translateX(-50%);
@@ -152,7 +152,7 @@ h1 {
   background: #7e896155;
 }
 #announcement {
-  position: fixed;
+  position: absolute;
   top: 120px;
   left: 50%;
   transform: translateX(-50%);
@@ -173,7 +173,7 @@ h1 {
   white-space: nowrap;
 }
 #combo {
-  position: fixed;
+  position: absolute;
   left: 50%;
   top: 27%;
   transform: translate(-50%, 12px) scale(0.9);
@@ -204,7 +204,7 @@ h1 {
     0 0 24px #f4c66d77;
 }
 footer {
-  position: fixed;
+  position: absolute;
   bottom: max(14px, env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%);
@@ -357,7 +357,7 @@ button:active {
   font-size: 10px;
 }
 #settings {
-  position: fixed;
+  position: absolute;
   bottom: 200px;
   left: 50%;
   transform: translateX(-50%);
@@ -426,7 +426,7 @@ button:active {
   color: #b6bca5;
 }
 #performance {
-  position: fixed;
+  position: absolute;
   left: 15px;
   bottom: 20px;
   background: #0a171bdd;
@@ -437,7 +437,7 @@ button:active {
   pointer-events: none;
 }
 #paused {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: #14241ba8;
   backdrop-filter: blur(5px);
@@ -464,7 +464,7 @@ button:active {
   color: #3e3626;
 }
 #loading {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: #22372c;
   z-index: 10;
@@ -483,7 +483,7 @@ button:active {
   color: #bcbc95;
 }
 #focus-marker {
-  position: fixed;
+  position: absolute;
   pointer-events: none;
   width: 32px;
   height: 32px;
@@ -506,7 +506,7 @@ button:active {
     scale: 0.6;
   }
 }
-@media (max-width: 700px) {
+@container (max-width: 700px) {
   header {
     top: max(12px, env(safe-area-inset-top));
     left: 12px;
@@ -601,7 +601,7 @@ button:active {
   }
 }
 
-@media (max-width: 700px) {
+@container (max-width: 700px) {
   .square {
     width: 44px;
     height: 44px;
@@ -611,7 +611,7 @@ button:active {
     top: 6px;
   }
 }
-@media (max-width: 360px) {
+@container (max-width: 360px) {
   #overcharge {
     font-size: 12px;
   }
@@ -638,68 +638,97 @@ button:active {
     gap: 4px;
   }
 }
-@media (max-height: 500px) and (orientation: landscape) {
-  header {
-    top: 10px;
-    left: 14px;
-    right: 14px;
+
+/* A real portrait viewport: rendering, input and HUD share these bounds. */
+body {
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse at 45% 40%, #203746, #090f18 80%);
+}
+#game-shell {
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  width: min(440px, calc((100dvh - 40px) * 0.48));
+  height: calc(100dvh - 40px);
+  max-height: 920px;
+  overflow: hidden;
+  border-radius: 36px;
+  outline: 2px solid #454e59;
+  border: 9px solid #141b23;
+  box-shadow:
+    0 30px 100px #0008,
+    0 0 0 4px #0a1119;
+}
+#battlefield {
+  position: absolute;
+  inset: 0;
+}
+#battlefield.retro {
+  image-rendering: pixelated;
+}
+#settings {
+  z-index: 4;
+  bottom: 170px;
+  max-height: calc(100% - 190px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+#paused {
+  z-index: 5;
+}
+.styles button {
+  min-height: 44px;
+  font-family: Lilita;
+  letter-spacing: 1px;
+}
+#settings-toggle {
+  min-height: 36px;
+}
+.vignette {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 45%,
+    #14223b55 100%
+  );
+}
+@media (max-width: 600px) and (orientation: portrait) {
+  #game-shell {
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    border: 0;
+    outline: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
-  .chapter {
-    padding: 6px 10px;
+}
+@media (max-height: 620px) and (orientation: landscape) {
+  #game-shell {
+    width: 300px;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
   }
-  .chapter-number {
-    font-size: 22px;
+  #game-shell header {
+    top: 8px;
   }
-  h1 {
-    font-size: 19px;
+  #game-shell .battle-stats {
+    top: 70px;
+    padding: 4px 14px;
   }
-  .battle-stats {
-    top: 12px;
-    padding: 5px 16px;
+  #game-shell footer {
+    bottom: 5px;
   }
-  .battle-stats strong {
-    font-size: 21px;
+  #game-shell .weapon svg {
+    height: 18px;
   }
-  footer {
-    width: min(510px, calc(100% - 160px));
-    bottom: 8px;
+  #game-shell .bottom-row {
+    margin-top: 5px;
   }
-  .arsenal {
-    padding: 5px;
-  }
-  .weapon {
-    padding: 4px;
-  }
-  .weapon svg {
-    display: none;
-  }
-  .weapon span {
-    font-size: 11px;
-  }
-  #overcharge {
-    font-size: 14px;
-  }
-  #overcharge svg {
-    height: 28px;
-  }
-  #overcharge small {
-    margin-top: 0;
-  }
-  .defense {
-    padding: 5px 10px;
-  }
-  .bottom-row {
-    margin-top: 6px;
-  }
-  .build-label {
-    display: none;
-  }
-  #settings {
-    bottom: 105px;
-    max-height: calc(100% - 120px);
-    overflow-y: auto;
-  }
-  #announcement {
-    top: 85px;
+  #game-shell #settings {
+    bottom: 135px;
+    max-height: calc(100% - 145px);
   }
 }

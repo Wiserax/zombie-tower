@@ -1,5 +1,10 @@
 import * as T from "three";
-import { zombieGeometry, environment, fortress } from "./art.js";
+import {
+  zombieGeometry,
+  environment,
+  fortress,
+  retroGroundTexture,
+} from "./art.js";
 import { CAP } from "./sim.js";
 import { Effects } from "./fx.js";
 const dummy = new T.Object3D(),
@@ -7,6 +12,8 @@ const dummy = new T.Object3D(),
 export class Battlefield {
   constructor(canvas, horde) {
     this.horde = horde;
+    this.canvas = canvas;
+    this.style = "retro";
     this.time = 0;
     this.zoom = 1;
     this.quality = "high";
@@ -30,7 +37,8 @@ export class Battlefield {
     this.camera = new T.OrthographicCamera(-30, 30, 22, -22, 0.1, 180);
     this.camera.position.set(30, 43, 36);
     this.camera.lookAt(0, 0, 0);
-    this.scene.add(new T.HemisphereLight(0xd3e7e7, 0x4b422e, 2.1));
+    this.ambient = new T.HemisphereLight(0xd3e7e7, 0x4b422e, 2.1);
+    this.scene.add(this.ambient);
     const sun = new T.DirectionalLight(0xffe0a0, 3.4);
     sun.position.set(-20, 38, 15);
     sun.castShadow = true;
@@ -48,6 +56,9 @@ export class Battlefield {
     this.scene.add(sun);
     this.sun = sun;
     const terrain = environment(this.scene);
+    this.terrain = terrain;
+    this.originalGround = terrain.ground.material.map;
+    this.retroGround = retroGroundTexture();
     horde.setObstacles(terrain.obstacles);
     this.fort = fortress(this.scene);
     this.fx = new Effects(this.scene);
@@ -75,8 +86,10 @@ export class Battlefield {
       );
       mat.customProgramCacheKey = () => `zombie-gait-${type}`;
       const time = { value: 0 };
+      const retro = { value: 1 };
       mat.onBeforeCompile = (shader) => {
         shader.uniforms.uTime = time;
+        shader.uniforms.uRetro = retro;
         shader.vertexShader = shader.vertexShader
           .replace(
             "#include <common>",
@@ -95,11 +108,11 @@ export class Battlefield {
         shader.fragmentShader = shader.fragmentShader
           .replace(
             "#include <common>",
-            "#include <common>\nvarying float vHit;",
+            "#include <common>\nvarying float vHit; uniform float uRetro;",
           )
           .replace(
             "#include <color_fragment>",
-            "#include <color_fragment>\ndiffuseColor.rgb=mix(diffuseColor.rgb,vec3(1.,.86,.55),vHit*.8);",
+            "#include <color_fragment>\ndiffuseColor.rgb=mix(diffuseColor.rgb, pow(diffuseColor.rgb,vec3(.72))*vec3(.88,1.08,1.12),uRetro); diffuseColor.rgb=mix(diffuseColor.rgb,vec3(1.,.96,.75),vHit*.9);",
           );
       };
       const mesh = new T.InstancedMesh(geo, mat, CAP);
@@ -107,7 +120,10 @@ export class Battlefield {
       mesh.frustumCulled = false;
       mesh.count = 0;
       this.scene.add(mesh);
-      this.units.push({ mesh, time });
+      const retroGeo = zombieGeometry(type, true);
+      for (const name of ["aPhase", "aHit", "aAttack"])
+        retroGeo.setAttribute(name, geo.getAttribute(name));
+      this.units.push({ mesh, time, retro, originalGeo: geo, retroGeo });
       const corpse = new T.InstancedMesh(
         zombieGeometry(type),
         new T.MeshStandardMaterial({
@@ -120,6 +136,8 @@ export class Battlefield {
       corpse.frustumCulled = false;
       corpse.count = 0;
       this.scene.add(corpse);
+      corpse.userData.originalGeo = corpse.geometry;
+      corpse.userData.retroGeo = zombieGeometry(type, true);
       this.corpses.push(corpse);
     }
     this.shadow = new T.InstancedMesh(
@@ -138,12 +156,43 @@ export class Battlefield {
     this.proj = new T.Matrix4();
     this.vec = new T.Vector3();
     this.steam = 0;
+    this.setStyle("retro");
+  }
+  setStyle(style) {
+    this.style = style === "original" ? "original" : "retro";
+    const retro = this.style === "retro";
+    this.canvas.classList.toggle("retro", retro);
+    this.ambient.color.setHex(retro ? 0xb9e5ff : 0xd3e7e7);
+    this.ambient.groundColor.setHex(retro ? 0x39345e : 0x4b422e);
+    this.ambient.intensity = retro ? 2.6 : 2.1;
+    this.sun.color.setHex(retro ? 0xffe4ab : 0xffe0a0);
+    this.sun.intensity = retro ? 3.8 : 3.4;
+    this.scene.fog.color.setHex(retro ? 0x273e51 : 0x465544);
+    this.terrain.ground.material.map = retro
+      ? this.retroGround
+      : this.originalGround;
+    this.terrain.ground.material.color.setHex(retro ? 0xffffff : 0xb8ba92);
+    this.renderer.toneMappingExposure = retro ? 1.3 : 1.35;
+    this.units.forEach((u) => {
+      u.retro.value = retro ? 1 : 0;
+      u.mesh.geometry = retro ? u.retroGeo : u.originalGeo;
+    });
+    this.corpses.forEach((m) => {
+      m.geometry = retro ? m.userData.retroGeo : m.userData.originalGeo;
+    });
     this.resize();
   }
   resize() {
-    const w = innerWidth,
-      h = innerHeight;
-    this.renderer.setSize(w, h);
+    const w = this.canvas.parentElement.clientWidth,
+      h = this.canvas.parentElement.clientHeight;
+    const retro = this.style === "retro";
+    this.renderer.setPixelRatio(retro ? 1 : Math.min(devicePixelRatio, 1.6));
+    const width = retro ? Math.min(320, Math.round(w)) : Math.round(w);
+    this.renderer.setSize(
+      width,
+      retro ? Math.round((width * h) / w) : Math.round(h),
+      false,
+    );
     const aspect = w / h,
       half = (aspect < 0.85 ? 30 : 24) / this.zoom;
     this.camera.left = -half * aspect;
@@ -262,9 +311,7 @@ export class Battlefield {
       this.corpses[t].count = dc[t];
       this.corpses[t].instanceMatrix.needsUpdate = true;
     }
-    this.fx.scale =
-      (innerHeight * this.renderer.getPixelRatio()) /
-      (this.camera.top - this.camera.bottom);
+    this.fx.scale = this.canvas.height / (this.camera.top - this.camera.bottom);
     this.steam -= dt;
     if (this.steam <= 0) {
       this.steam = 0.14;
@@ -308,10 +355,11 @@ export class Battlefield {
   }
   point(clientX, clientY) {
     const ray = new T.Raycaster();
+    const rect = this.canvas.getBoundingClientRect();
     ray.setFromCamera(
       new T.Vector2(
-        (clientX / innerWidth) * 2 - 1,
-        (-clientY / innerHeight) * 2 + 1,
+        ((clientX - rect.left) / rect.width) * 2 - 1,
+        (-(clientY - rect.top) / rect.height) * 2 + 1,
       ),
       this.camera,
     );

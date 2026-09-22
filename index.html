@@ -15,120 +15,133 @@
     <link rel="icon" type="image/svg+xml" href="./icon.svg" />
   </head>
   <body>
-    <canvas
-      id="battlefield"
-      aria-label="Live 3D zombie siege battlefield"
-    ></canvas>
-    <div class="vignette"></div>
-    <div id="loading">
-      <strong>DEADWOOD</strong><span>Preparing the last line of defense…</span>
-    </div>
-    <header>
-      <div class="chapter">
-        <span class="chapter-number">01</span>
-        <div>
-          <small>THE LAST TOWER</small>
-          <h1>Deadwood Siege</h1>
+    <main id="game-shell" aria-label="Deadwood portrait battlefield">
+      <canvas
+        id="battlefield"
+        aria-label="Live 3D zombie siege battlefield"
+      ></canvas>
+      <div class="vignette"></div>
+      <div id="loading">
+        <strong>DEADWOOD</strong
+        ><span>Preparing the last line of defense…</span>
+      </div>
+      <header>
+        <div class="chapter">
+          <span class="chapter-number">01</span>
+          <div>
+            <small>THE LAST TOWER</small>
+            <h1>Deadwood Siege</h1>
+          </div>
         </div>
+        <div class="top-controls">
+          <button
+            id="sound"
+            class="square"
+            title="Enable sound"
+            aria-label="Enable sound"
+          >
+            ♪<span class="slash">╱</span></button
+          ><button
+            id="pause"
+            class="square"
+            title="Pause"
+            aria-label="Pause battle"
+          >
+            Ⅱ
+          </button>
+        </div>
+      </header>
+      <div class="battle-stats">
+        <div>
+          <span class="dot"></span><strong id="alive">600</strong
+          ><small>APPROACHING</small>
+        </div>
+        <span class="divider"></span>
+        <div><strong id="kills">0</strong><small>ELIMINATED</small></div>
       </div>
-      <div class="top-controls">
-        <button
-          id="sound"
-          class="square"
-          title="Enable sound"
-          aria-label="Enable sound"
+      <div id="announcement" aria-live="polite">
+        <small>HOLD THE LINE</small><strong>THE HORDE IS COMING</strong>
+      </div>
+      <div id="combo">
+        <small>PACK CLEARED</small><strong>+<span>0</span></strong>
+      </div>
+      <div id="focus-marker"></div>
+      <footer>
+        <div class="defense">
+          <span>BASTION</span>
+          <div class="health-track"><i id="health"></i></div>
+          <strong id="health-label">100%</strong>
+        </div>
+        <div class="arsenal">
+          <button class="weapon active" data-weapon="guns">
+            <svg viewBox="0 0 40 40">
+              <path d="M7 30 29 8l5 5-22 22zM19 14l7 7M8 23l9 9" /></svg
+            ><span>GUNS</span><i></i></button
+          ><button class="weapon active" data-weapon="tesla">
+            <svg viewBox="0 0 40 40">
+              <path d="m24 3-17 21h12l-3 13 18-23H22z" /></svg
+            ><span>TESLA</span><i></i></button
+          ><button class="weapon active" data-weapon="mortar">
+            <svg viewBox="0 0 40 40">
+              <path
+                d="M25 12c9 3 12 18 0 23S3 26 9 17c4-6 9-7 16-5ZM23 12l3-7 7 2M31 2l5 4"
+              /></svg
+            ><span>MORTARS</span><i></i></button
+          ><button id="overcharge">
+            <svg viewBox="0 0 40 40">
+              <path d="m22 3-15 20h12l-3 14 17-23H21z" /></svg
+            ><span
+              >OVERCHARGE<small id="charge-label">READY · SPACE</small></span
+            >
+          </button>
+        </div>
+        <div class="bottom-row">
+          <button id="settings-toggle">⚙ <span>SCENE</span></button
+          ><span class="hint">Tap the horde to focus fire</span
+          ><span class="build-label">VISUAL LAB · 0.2</span>
+        </div>
+      </footer>
+      <section id="settings" hidden>
+        <div class="panel-title">
+          <h2>Battlefield lab</h2>
+          <button id="close-settings" aria-label="Close settings">×</button>
+        </div>
+        <p>Visual style</p>
+        <div class="density styles" aria-label="Visual style">
+          <button data-style="retro" class="selected" aria-pressed="true">
+            RETRO
+          </button>
+          <button data-style="original" aria-pressed="false">ORIGINAL</button>
+        </div>
+        <p>Live horde size</p>
+        <div class="density">
+          <button data-density="300">300</button
+          ><button data-density="600" class="selected">600</button
+          ><button data-density="1000">1,000</button
+          ><button data-density="1600">1,600</button>
+        </div>
+        <p>Camera</p>
+        <div class="camera-controls">
+          <button id="zoom-out">−</button><span>See the whole siege</span
+          ><button id="zoom-in">+</button>
+        </div>
+        <label
+          ><input id="shake-toggle" type="checkbox" checked /> Impact camera
+          shake</label
+        ><label
+          ><input id="stats-toggle" type="checkbox" /> Performance
+          counters</label
         >
-          ♪<span class="slash">╱</span></button
-        ><button
-          id="pause"
-          class="square"
-          title="Pause"
-          aria-label="Pause battle"
-        >
-          Ⅱ
-        </button>
+        <p class="lab-note">
+          A visual combat study. Automatic defenses, endless reinforcements, no
+          progression or purchases.
+        </p>
+      </section>
+      <div id="performance" hidden></div>
+      <div id="paused" hidden>
+        <strong>BATTLE PAUSED</strong><button id="resume">RESUME</button>
       </div>
-    </header>
-    <div class="battle-stats">
-      <div>
-        <span class="dot"></span><strong id="alive">600</strong
-        ><small>APPROACHING</small>
-      </div>
-      <span class="divider"></span>
-      <div><strong id="kills">0</strong><small>ELIMINATED</small></div>
-    </div>
-    <div id="announcement" aria-live="polite">
-      <small>HOLD THE LINE</small><strong>THE HORDE IS COMING</strong>
-    </div>
-    <div id="combo">
-      <small>PACK CLEARED</small><strong>+<span>0</span></strong>
-    </div>
-    <div id="focus-marker"></div>
-    <footer>
-      <div class="defense">
-        <span>BASTION</span>
-        <div class="health-track"><i id="health"></i></div>
-        <strong id="health-label">100%</strong>
-      </div>
-      <div class="arsenal">
-        <button class="weapon active" data-weapon="guns">
-          <svg viewBox="0 0 40 40">
-            <path d="M7 30 29 8l5 5-22 22zM19 14l7 7M8 23l9 9" /></svg
-          ><span>GUNS</span><i></i></button
-        ><button class="weapon active" data-weapon="tesla">
-          <svg viewBox="0 0 40 40">
-            <path d="m24 3-17 21h12l-3 13 18-23H22z" /></svg
-          ><span>TESLA</span><i></i></button
-        ><button class="weapon active" data-weapon="mortar">
-          <svg viewBox="0 0 40 40">
-            <path
-              d="M25 12c9 3 12 18 0 23S3 26 9 17c4-6 9-7 16-5ZM23 12l3-7 7 2M31 2l5 4"
-            /></svg
-          ><span>MORTARS</span><i></i></button
-        ><button id="overcharge">
-          <svg viewBox="0 0 40 40">
-            <path d="m22 3-15 20h12l-3 14 17-23H21z" /></svg
-          ><span>OVERCHARGE<small id="charge-label">READY · SPACE</small></span>
-        </button>
-      </div>
-      <div class="bottom-row">
-        <button id="settings-toggle">⚙ <span>SCENE</span></button
-        ><span class="hint">Tap the horde to focus fire</span
-        ><span class="build-label">VISUAL LAB · 0.1</span>
-      </div>
-    </footer>
-    <section id="settings" hidden>
-      <div class="panel-title">
-        <h2>Battlefield lab</h2>
-        <button id="close-settings" aria-label="Close settings">×</button>
-      </div>
-      <p>Live horde size</p>
-      <div class="density">
-        <button data-density="300">300</button
-        ><button data-density="600" class="selected">600</button
-        ><button data-density="1000">1,000</button
-        ><button data-density="1600">1,600</button>
-      </div>
-      <p>Camera</p>
-      <div class="camera-controls">
-        <button id="zoom-out">−</button><span>See the whole siege</span
-        ><button id="zoom-in">+</button>
-      </div>
-      <label
-        ><input id="shake-toggle" type="checkbox" checked /> Impact camera
-        shake</label
-      ><label
-        ><input id="stats-toggle" type="checkbox" /> Performance counters</label
-      >
-      <p class="lab-note">
-        A visual combat study. Automatic defenses, endless reinforcements, no
-        progression or purchases.
-      </p>
-    </section>
-    <div id="performance" hidden></div>
-    <div id="paused" hidden>
-      <strong>BATTLE PAUSED</strong><button id="resume">RESUME</button>
-    </div>
+    </main>
     <script>
       addEventListener("error", () => {
         const loading = document.getElementById("loading");

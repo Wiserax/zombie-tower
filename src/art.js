@@ -110,10 +110,14 @@ export const stoneMaterial = () => {
   return mat;
 };
 
-export function zombieGeometry(type = 0) {
+export function zombieGeometry(type = 0, retro = false) {
   const b = new Builder(),
-    skin = [0xb4b397, 0xbdb79e, 0x959c79][type],
-    shirt = [0x6b5042, 0x566266, 0x4d5c48][type],
+    skin = (
+      retro ? [0xd9e4ae, 0xb9e7d3, 0xa3c581] : [0xb4b397, 0xbdb79e, 0x959c79]
+    )[type],
+    shirt = (
+      retro ? [0x794657, 0x334878, 0x68533b] : [0x6b5042, 0x566266, 0x4d5c48]
+    )[type],
     pants = 0x313b37;
   // Proportions are adult silhouettes, with exposed hands and a hunched neck.
   b.add(
@@ -237,7 +241,22 @@ export function zombieGeometry(type = 0) {
     b.box(0x60503e, 0, 0.9, 0.225, 0.25, 0.3, 0.035);
   }
   b.box(0x49332e, 0.07, 0.94, 0.208, 0.07, 0.17, 0.015);
-  return b.build();
+  const geometry = b.build();
+  if (retro) {
+    const pos = geometry.attributes.position;
+    for (let i = 0; i < pos.count; i++) {
+      const y = pos.getY(i);
+      const head = y > 1.15;
+      pos.setXYZ(
+        i,
+        pos.getX(i) * (head ? 1.6 : 1.17),
+        head ? 1.15 + (y - 1.15) * 1.3 : y,
+        head ? 0.12 + (pos.getZ(i) - 0.12) * 1.5 : pos.getZ(i),
+      );
+    }
+    geometry.computeVertexNormals();
+  }
+  return geometry;
 }
 
 export function groundTexture(seed = 17) {
@@ -620,4 +639,33 @@ export function fortress(scene) {
     ballistas.push(mesh);
   }
   return { base, lights, turrets, ballistas };
+}
+
+// Small, deliberately painted texel clusters; one reusable GPU texture.
+export function retroGroundTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = 128;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#286243";
+  ctx.fillRect(0, 0, 128, 128);
+  let seed = 173;
+  const random = () =>
+    (seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296;
+  const colors = ["#2b6546", "#265e40", "#2d6847", "#296345", "#2f6847"];
+  for (let i = 0; i < 380; i++) {
+    ctx.fillStyle = colors[(random() * colors.length) | 0];
+    ctx.fillRect(
+      (random() * 128) | 0,
+      (random() * 128) | 0,
+      3 + ((random() * 9) | 0),
+      1 + ((random() * 3) | 0),
+    );
+  }
+  const texture = new T.CanvasTexture(canvas);
+  texture.colorSpace = T.SRGBColorSpace;
+  texture.magFilter = texture.minFilter = T.NearestFilter;
+  texture.generateMipmaps = false;
+  texture.wrapS = texture.wrapT = T.RepeatWrapping;
+  texture.repeat.set(5, 5);
+  return texture;
 }
