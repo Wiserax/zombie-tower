@@ -1,0 +1,236 @@
+{
+  "date": "2026-09-22T18:14:36.226Z",
+  "base": "http://localhost:5197",
+  "results": [
+    {
+      "engine": "chrome",
+      "health": {
+        "healthy": 0,
+        "damaged": 1,
+        "bar": [
+          0.5,
+          1,
+          0,
+          1
+        ],
+        "shape": [
+          17,
+          4,
+          0
+        ],
+        "settled": 0.5,
+        "all": 3,
+        "off": 0,
+        "reused": 0,
+        "generation": true,
+        "recycledTrail": 1
+      },
+      "numbers": {
+        "coalesced": 12,
+        "slotSafe": true,
+        "peak": 32,
+        "glyphs": 6,
+        "finite": true,
+        "rectangles": [
+          {
+            "x": 267.02017538613865,
+            "y": 563.1291682465343,
+            "w": 24.446371507381443,
+            "h": 30.94477405997651
+          },
+          {
+            "x": 212.8667053105778,
+            "y": 532.6870071395798,
+            "w": 24.446371507381443,
+            "h": 30.94477405997651
+          }
+        ],
+        "packsAfterClear": 0,
+        "expired": 0,
+        "expiredGlyphs": 0
+      },
+      "surge": {
+        "kills": 120,
+        "lines": 192,
+        "lightCount": 3,
+        "sparks": 110,
+        "lights": 1
+      },
+      "modes": {
+        "disabled": {
+          "lights": [
+            0,
+            0
+          ],
+          "core": 0,
+          "glows": 0,
+          "glyphs": 0,
+          "bars": 0
+        },
+        "programs": 32
+      },
+      "layout": {
+        "compact": true,
+        "header": {
+          "x": 12,
+          "y": 8,
+          "w": 296,
+          "h": 44,
+          "bottom": 52
+        },
+        "stats": {
+          "x": 66.84375,
+          "y": 61,
+          "w": 186.3125,
+          "h": 41,
+          "bottom": 102
+        },
+        "streak": {
+          "x": 65,
+          "y": 104,
+          "w": 190,
+          "h": 47,
+          "bottom": 151
+        },
+        "combo": {
+          "x": 92.84375,
+          "y": 157,
+          "w": 134.3125,
+          "h": 26,
+          "bottom": 183
+        },
+        "overchargePosition": "relative",
+        "footer": {
+          "x": 14,
+          "y": 418,
+          "w": 292,
+          "h": 142,
+          "bottom": 560
+        },
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 568,
+          "bottom": 568
+        }
+      },
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "health": {
+        "healthy": 0,
+        "damaged": 1,
+        "bar": [
+          0.5,
+          1,
+          0,
+          1
+        ],
+        "shape": [
+          17,
+          4,
+          0
+        ],
+        "settled": 0.5,
+        "all": 3,
+        "off": 0,
+        "reused": 0,
+        "generation": true,
+        "recycledTrail": 1
+      },
+      "numbers": {
+        "coalesced": 12,
+        "slotSafe": true,
+        "peak": 32,
+        "glyphs": 6,
+        "finite": true,
+        "rectangles": [
+          {
+            "x": 266.9316003616394,
+            "y": 563.1291682465343,
+            "w": 24.446371507381443,
+            "h": 30.94477405997651
+          },
+          {
+            "x": 213.04754768407614,
+            "y": 532.6870071395798,
+            "w": 24.446371507381443,
+            "h": 30.94477405997651
+          }
+        ],
+        "packsAfterClear": 0,
+        "expired": 0,
+        "expiredGlyphs": 0
+      },
+      "surge": {
+        "kills": 120,
+        "lines": 192,
+        "lightCount": 3,
+        "sparks": 110,
+        "lights": 1
+      },
+      "modes": {
+        "disabled": {
+          "lights": [
+            0,
+            0
+          ],
+          "core": 0,
+          "glows": 0,
+          "glyphs": 0,
+          "bars": 0
+        },
+        "programs": 32
+      },
+      "layout": {
+        "compact": true,
+        "header": {
+          "x": 12,
+          "y": 8,
+          "w": 296,
+          "h": 44,
+          "bottom": 52
+        },
+        "stats": {
+          "x": 66.75,
+          "y": 61,
+          "w": 186.3125,
+          "h": 41,
+          "bottom": 102
+        },
+        "streak": {
+          "x": 65,
+          "y": 104,
+          "w": 190,
+          "h": 47,
+          "bottom": 151
+        },
+        "combo": {
+          "x": 92.75,
+          "y": 157,
+          "w": 134.3125,
+          "h": 26,
+          "bottom": 183
+        },
+        "overchargePosition": "relative",
+        "footer": {
+          "x": 14,
+          "y": 418,
+          "w": 292,
+          "h": 142,
+          "bottom": 560
+        },
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 568,
+          "bottom": 568
+        }
+      },
+      "errors": []
+    }
+  ]
+}

@@ -1,13 +1,13 @@
 {
-  "date": "2026-09-22T14:58:46.401Z",
+  "date": "2026-09-22T18:13:21.994Z",
   "base": "http://localhost:5197",
   "results": [
     {
       "engine": "chrome",
       "startup": {
-        "elapsed": 1.2565999999999995,
+        "elapsed": 1.2566999999999993,
         "minimumHP": 0,
-        "maximumFlash": 0.9336000084877014,
+        "maximumFlash": 0.8496999740600586,
         "resolution": [
           624,
           1350
@@ -22,42 +22,52 @@
           1350
         ],
         "alive": 1600,
-        "visible": 1013,
-        "rendered": 1142,
+        "visible": 1029,
+        "rendered": 1140,
+        "wallStrikes": 43,
+        "wallAttackers": 60,
+        "electrified": 0,
+        "hitSparks": 6,
+        "lightEvents": 1,
+        "healthBars": 76,
+        "damageLabels": 7,
+        "damageGlyphs": 13,
+        "streak": 458,
+        "bestStreak": 458,
         "impactFlashes": 0,
-        "muzzleFlashes": 2,
+        "muzzleFlashes": 1,
         "target": 1600,
-        "kills": 438,
-        "corpses": 400,
-        "particles": 170,
-        "drawCalls": 36,
-        "triangles": 827308,
+        "kills": 458,
+        "corpses": 234,
+        "particles": 194,
+        "drawCalls": 43,
+        "triangles": 815356,
         "fps": 60,
-        "frameP95": 16.700000000000728,
-        "simP95": 0.800000011920929,
-        "renderP95": 1.300000011920929,
-        "geometries": 45,
-        "textures": 4,
-        "neighborChecks": 34872,
-        "elapsed": 9.563000000000017
+        "frameP95": 16.799999999999272,
+        "simP95": 0.699999988079071,
+        "renderP95": 1.2000000178813934,
+        "geometries": 54,
+        "textures": 5,
+        "neighborChecks": 34808,
+        "elapsed": 9.606400000000017
       },
       "culling": [
         {
           "zoom": 0.7,
-          "expected": 375,
-          "rendered": 391,
+          "expected": 402,
+          "rendered": 423,
           "missing": 0
         },
         {
           "zoom": 1,
-          "expected": 242,
-          "rendered": 273,
+          "expected": 261,
+          "rendered": 299,
           "missing": 0
         },
         {
           "zoom": 1.7,
-          "expected": 82,
-          "rendered": 111,
+          "expected": 84,
+          "rendered": 107,
           "missing": 0
         }
       ],
@@ -81,9 +91,9 @@
     {
       "engine": "webkit",
       "startup": {
-        "elapsed": 1.22,
+        "elapsed": 1.2120000000000004,
         "minimumHP": 0,
-        "maximumFlash": 0.7999999523162842,
+        "maximumFlash": 0.6940000057220459,
         "resolution": [
           624,
           1350
@@ -97,43 +107,53 @@
           624,
           1350
         ],
-        "alive": 1598,
-        "visible": 1000,
-        "rendered": 1109,
+        "alive": 1600,
+        "visible": 998,
+        "rendered": 1115,
+        "wallStrikes": 53,
+        "wallAttackers": 63,
+        "electrified": 0,
+        "hitSparks": 14,
+        "lightEvents": 1,
+        "healthBars": 85,
+        "damageLabels": 11,
+        "damageGlyphs": 17,
+        "streak": 511,
+        "bestStreak": 511,
         "impactFlashes": 0,
-        "muzzleFlashes": 2,
+        "muzzleFlashes": 1,
         "target": 1600,
-        "kills": 423,
-        "corpses": 400,
-        "particles": 166,
-        "drawCalls": 36,
-        "triangles": 814996,
-        "fps": 60,
-        "frameP95": 19,
-        "simP95": 2,
+        "kills": 511,
+        "corpses": 227,
+        "particles": 220,
+        "drawCalls": 43,
+        "triangles": 801750,
+        "fps": 30,
+        "frameP95": 34,
+        "simP95": 3,
         "renderP95": 2,
-        "geometries": 45,
-        "textures": 4,
-        "neighborChecks": 34569,
-        "elapsed": 9.649000000000004
+        "geometries": 54,
+        "textures": 5,
+        "neighborChecks": 34363,
+        "elapsed": 9.697000000000012
       },
       "culling": [
         {
           "zoom": 0.7,
-          "expected": 375,
-          "rendered": 389,
+          "expected": 414,
+          "rendered": 436,
           "missing": 0
         },
         {
           "zoom": 1,
-          "expected": 240,
-          "rendered": 268,
+          "expected": 272,
+          "rendered": 307,
           "missing": 0
         },
         {
           "zoom": 1.7,
-          "expected": 80,
-          "rendered": 102,
+          "expected": 89,
+          "rendered": 115,
           "missing": 0
         }
       ],

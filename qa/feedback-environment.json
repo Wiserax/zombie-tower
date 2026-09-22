@@ -1,0 +1,27 @@
+{
+  "recordedAt": "2026-09-22T18:18:07.152Z",
+  "machine": "Apple M1 Max",
+  "observations": {
+    "powerSource": "Battery Power",
+    "batteryPercent": 100,
+    "batteryPowerMode": 1,
+    "acPowerMode": 2,
+    "thermalWarning": false,
+    "performanceWarning": false
+  },
+  "blankPageBaseline": {
+    "chrome": {
+      "framesInAbout3Seconds": 181,
+      "medianFrameMs": 16.7,
+      "p95FrameMs": 16.7,
+      "visibility": "visible"
+    },
+    "webkit": {
+      "framesInAbout3Seconds": 88,
+      "medianFrameMs": 33,
+      "p95FrameMs": 34,
+      "visibility": "visible"
+    }
+  },
+  "interpretation": "WebKit also showed a ~30 FPS cadence on an empty visible page while the Mac was on battery. This is consistent with a browser/system scheduling limit rather than evidence that this scene needs 33 ms of CPU or GPU work. No power settings were changed. Physical phone performance remains unmeasured."
+}

@@ -55,6 +55,21 @@ The previous release and this build were observed at equal 390×844 viewports wi
 
 The checks cover Chrome and WebKit, 320×568 through desktop portrait framing, actual file startup, sound opt-in, pause, graphics-loss recovery and the pressure/reset sequence. Machine-readable reports live in `qa/feedback*.json`, `qa/portrait.json`, `qa/graphics.json` and `qa/audio.json`.
 
-Performance must be read with its environment report. The Mac switched to battery during review; a blank visible WebKit page also measured roughly 30 FPS while Chrome stayed near 60. No power settings were changed. Direct GPU timings, CPU submission timings and browser frame cadence are different measurements. Physical Android/iPhone performance and the user's judgment of the visual result remain unverified by desktop emulation.
+Performance must be read with its environment report. During the later review the Mac was on battery; a blank visible WebKit page also measured roughly 30 FPS while Chrome stayed near 60. No power settings were changed. Direct GPU timings, CPU submission timings and browser frame cadence are different measurements. Physical Android/iPhone performance and the user's judgment of the visual result remain unverified by desktop emulation.
 
 The current endless automatic-fire scene can maintain a chain for a very long time. The meter is honest kill feedback, not evidence of skill or an economy multiplier. Meaningful chain risk/reward and encounter breaks should be designed with the eventual wave/upgrade loop rather than fabricated for this visual test.
+
+## Release measurements — 0.4.0
+
+Implementation: `7b05ac4`. Final runtime: `index-BHFMaTVF.js`, SHA-256 `f9bacea71da16341e15f0585be7c81d0bb99b82cdd2a37e2a576772589952707`.
+
+| Chrome GPU timer query, M1 Max, 390×844 CSS viewport | GPU p95 | Observed cadence |
+|---|---:|---:|
+| 600 enemies, default camera | 2.89 ms | 60 FPS |
+| 1,600 enemies, default camera | 5.03 ms | 60 FPS |
+| 1,600 enemies, zoomed out, all bars | 5.54 ms | 60 FPS |
+| 600 enemies, 4× CPU throttle | 3.20 ms | 60 FPS |
+
+Each profiling case measured about 900 GPU frames after warmup, including repeated Overcharges. These are desktop measurements, not phone estimates. Separate ten-minute runs in Chrome and WebKit used this same runtime hash: no errors or pool violations, and stable warmed counts of 54 geometries, five textures and 32 shader programs. Chrome sampled 60 FPS; WebKit sampled 30 FPS, matching its contemporary blank-page baseline. Chrome's collected JS heap grew from 6,712,760 to 7,324,584 bytes; that figure excludes native audio/GPU memory and is not a proof of zero memory growth.
+
+Eight simulation/feedback tests and two exporter tests passed. Browser checks covered damage/trails, generation reuse, status expiry, pooled effects, short/portrait HUDs, pause, reduced motion, native touch scrolling, keyboard routing, context restoration, sound lifecycle, file startup and natural wall pressure/reset. Public asset hashes and post-deployment interactions are recorded separately in `qa/public-feedback-release.json` after deployment.

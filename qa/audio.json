@@ -1,18 +1,12 @@
 {
-  "date": "2026-09-22T14:56:02.949Z",
+  "date": "2026-09-22T18:09:35.075Z",
   "engines": [
     {
       "name": "Chrome",
       "errors": [],
       "decoded": [
         {
-          "name": "gun2.wav",
-          "duration": 0.3,
-          "channels": 1,
-          "sampleRate": 48000
-        },
-        {
-          "name": "gun1.wav",
+          "name": "gun0.wav",
           "duration": 0.3,
           "channels": 1,
           "sampleRate": 48000
@@ -24,20 +18,26 @@
           "sampleRate": 48000
         },
         {
+          "name": "tesla.wav",
+          "duration": 0.6499583333333333,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
           "name": "ballista.wav",
           "duration": 0.5,
           "channels": 1,
           "sampleRate": 48000
         },
         {
-          "name": "gun0.wav",
-          "duration": 0.3,
+          "name": "open.wav",
+          "duration": 0.14779166666666665,
           "channels": 1,
           "sampleRate": 48000
         },
         {
-          "name": "open.wav",
-          "duration": 0.14779166666666665,
+          "name": "gun2.wav",
+          "duration": 0.3,
           "channels": 1,
           "sampleRate": 48000
         },
@@ -60,26 +60,14 @@
           "sampleRate": 48000
         },
         {
+          "name": "gun1.wav",
+          "duration": 0.3,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
           "name": "hit.wav",
           "duration": 0.31014583333333334,
-          "channels": 1,
-          "sampleRate": 48000
-        },
-        {
-          "name": "tesla.wav",
-          "duration": 0.6499583333333333,
-          "channels": 1,
-          "sampleRate": 48000
-        },
-        {
-          "name": "boom0.wav",
-          "duration": 1.8,
-          "channels": 1,
-          "sampleRate": 48000
-        },
-        {
-          "name": "boom1.wav",
-          "duration": 1.8,
           "channels": 1,
           "sampleRate": 48000
         },
@@ -90,8 +78,8 @@
           "sampleRate": 48000
         },
         {
-          "name": "ready.wav",
-          "duration": 0.539,
+          "name": "boom0.wav",
+          "duration": 1.8,
           "channels": 1,
           "sampleRate": 48000
         },
@@ -102,14 +90,8 @@
           "sampleRate": 48000
         },
         {
-          "name": "overcharge.wav",
-          "duration": 2.6,
-          "channels": 1,
-          "sampleRate": 48000
-        },
-        {
-          "name": "horde0.wav",
-          "duration": 1.5,
+          "name": "ready.wav",
+          "duration": 0.539,
           "channels": 1,
           "sampleRate": 48000
         },
@@ -120,19 +102,37 @@
           "sampleRate": 48000
         },
         {
+          "name": "horde0.wav",
+          "duration": 1.5,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "overcharge.wav",
+          "duration": 2.6,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "name": "boom1.wav",
+          "duration": 1.8,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
           "name": "wind.mp3",
           "duration": 15.5,
           "channels": 1,
           "sampleRate": 48000
         },
         {
-          "name": "siege-bed.mp3",
+          "name": "siege-drums.mp3",
           "duration": 87.27272916666666,
           "channels": 2,
           "sampleRate": 48000
         },
         {
-          "name": "siege-drums.mp3",
+          "name": "siege-bed.mp3",
           "duration": 87.27272916666666,
           "channels": 2,
           "sampleRate": 48000
@@ -142,30 +142,31 @@
         "enabled": true,
         "ready": true,
         "state": "running",
-        "voices": 6,
+        "voices": 4,
         "peakVoices": 11,
         "buffers": 22,
         "loops": 3,
         "counts": {
           "open": 3,
-          "death": 128,
+          "death": 118,
           "pack": 23,
           "overcharge": 8,
-          "gun": 826,
+          "gun": 821,
           "launch": 73,
           "ballista": 63,
           "tesla": 70,
           "boom": 73,
           "close": 1,
-          "horde": 12,
+          "horde": 10,
+          "hit": 31,
           "ready": 7
         },
         "dropped": 0
       },
       "levels": {
-        "maxPeak": 0.4742250442504883,
-        "averageRms": 0.06036392306298874,
-        "minFps": 55,
+        "maxPeak": 0.49352800846099854,
+        "averageRms": 0.061780557194140086,
+        "minFps": 52,
         "samples": 940
       },
       "checks": [
@@ -186,6 +187,12 @@
       "errors": [],
       "decoded": [
         {
+          "name": "gun0.wav",
+          "duration": 0.3,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
           "name": "gun1.wav",
           "duration": 0.3,
           "channels": 1,
@@ -193,12 +200,6 @@
         },
         {
           "name": "gun2.wav",
-          "duration": 0.3,
-          "channels": 1,
-          "sampleRate": 48000
-        },
-        {
-          "name": "gun0.wav",
           "duration": 0.3,
           "channels": 1,
           "sampleRate": 48000
@@ -222,6 +223,12 @@
           "sampleRate": 48000
         },
         {
+          "name": "overcharge.wav",
+          "duration": 2.6,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
           "name": "boom0.wav",
           "duration": 1.8,
           "channels": 1,
@@ -230,12 +237,6 @@
         {
           "name": "boom1.wav",
           "duration": 1.8,
-          "channels": 1,
-          "sampleRate": 48000
-        },
-        {
-          "name": "overcharge.wav",
-          "duration": 2.6,
           "channels": 1,
           "sampleRate": 48000
         },
@@ -282,13 +283,13 @@
           "sampleRate": 48000
         },
         {
-          "name": "horde0.wav",
+          "name": "horde1.wav",
           "duration": 1.5,
           "channels": 1,
           "sampleRate": 48000
         },
         {
-          "name": "horde1.wav",
+          "name": "horde0.wav",
           "duration": 1.5,
           "channels": 1,
           "sampleRate": 48000
@@ -322,16 +323,16 @@
         "enabled": true,
         "ready": true,
         "state": "running",
-        "voices": 6,
+        "voices": 5,
         "peakVoices": 9,
         "buffers": 22,
         "loops": 3,
         "counts": {
           "open": 3,
-          "death": 10,
+          "death": 8,
           "pack": 3,
           "overcharge": 1,
-          "gun": 72,
+          "gun": 71,
           "launch": 7,
           "ballista": 5,
           "tesla": 6,
@@ -342,8 +343,8 @@
         "dropped": 0
       },
       "levels": {
-        "maxPeak": 0.3192058205604553,
-        "averageRms": 0.05955961650818135,
+        "maxPeak": 0.3114156126976013,
+        "averageRms": 0.05990650578315092,
         "minFps": 61,
         "samples": 57
       },

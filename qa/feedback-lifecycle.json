@@ -1,0 +1,119 @@
+{
+  "date": "2026-09-22T18:32:46.004Z",
+  "base": "http://localhost:5197",
+  "results": [
+    {
+      "engine": "chrome",
+      "reduced": {
+        "shakeEnabled": false,
+        "camera": [
+          30,
+          36
+        ],
+        "shimmer": "none"
+      },
+      "recovery": {
+        "lost": false,
+        "time": 2.529999999999997,
+        "visible": 161,
+        "draws": 49,
+        "audio": "uninitialized"
+      },
+      "touch": {
+        "scroll": 187,
+        "bodyY": 0
+      },
+      "short": {
+        "active": true,
+        "stats": {
+          "top": 8,
+          "bottom": 51,
+          "left": 282,
+          "right": 450.3125
+        },
+        "controls": {
+          "top": 8,
+          "bottom": 52,
+          "left": 468,
+          "right": 560
+        },
+        "streak": {
+          "top": 59,
+          "bottom": 106,
+          "left": 327,
+          "right": 517
+        },
+        "combo": {
+          "top": 111.03300476074219,
+          "bottom": 137.02655029296875,
+          "left": 359.9060363769531,
+          "right": 484.0939636230469
+        },
+        "footer": {
+          "top": 258,
+          "bottom": 386,
+          "left": 286,
+          "right": 558
+        },
+        "safeTop": 145,
+        "safeBottom": 140
+      },
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "reduced": {
+        "shakeEnabled": false,
+        "camera": [
+          30,
+          36
+        ],
+        "shimmer": "none"
+      },
+      "recovery": {
+        "lost": false,
+        "time": 2.4089999999999994,
+        "visible": 134,
+        "draws": 50,
+        "audio": "uninitialized"
+      },
+      "touch": null,
+      "short": {
+        "active": true,
+        "stats": {
+          "top": 8,
+          "bottom": 51,
+          "left": 282,
+          "right": 450.3125
+        },
+        "controls": {
+          "top": 8,
+          "bottom": 52,
+          "left": 468,
+          "right": 560
+        },
+        "streak": {
+          "top": 59,
+          "bottom": 106,
+          "left": 327,
+          "right": 517
+        },
+        "combo": {
+          "top": 111,
+          "bottom": 137,
+          "left": 356.25,
+          "right": 487.78125
+        },
+        "footer": {
+          "top": 258,
+          "bottom": 386,
+          "left": 286,
+          "right": 558
+        },
+        "safeTop": 145,
+        "safeBottom": 140
+      },
+      "errors": []
+    }
+  ]
+}
