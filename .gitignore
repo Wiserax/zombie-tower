@@ -17,3 +17,5 @@ qa/*-progress.json
 
 qa/*.m4a
 qa/*.wav
+
+qa/feel/

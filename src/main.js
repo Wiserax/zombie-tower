@@ -3,20 +3,54 @@ import { Horde } from "./sim.js";
 import { Battlefield } from "./renderer.js";
 import { Combat } from "./combat.js";
 import { SiegeAudio } from "./audio.js";
-const siegeAudio = new SiegeAudio();
+import { KillStreak } from "./streak.js";
+const siegeAudio = new SiegeAudio(),
+  streak = new KillStreak();
 const $ = (s) => document.querySelector(s),
   h = new Horde(),
   view = new Battlefield($("#battlefield"), h),
   combat = new Combat(h, view);
+view.bastionFeedback.onStrike = (x) => siegeAudio.play("hit", x / 35);
 h.onDeath = (i, e, k) => {
   view.death(i, e, k);
+  if (!automaticReset) streak.kill();
   if (Math.hypot(h.x[i], h.z[i]) < 20) siegeAudio.play("death", h.x[i] / 35);
 };
+h.onDamage = (i, element, amount, killed, knock) => {
+  if (!view.feedbackVisible(h.x[i], 1.5, h.z[i], 2)) return;
+  view.hitSparks.hit(
+    h.x[i],
+    h.type[i] === 2 ? 1.8 : 1.05,
+    h.z[i],
+    element,
+    h.type[i] === 2,
+  );
+  const kind = element === 1 ? "electric" : element === 2 ? "blast" : "hit";
+  // Individual numbers serve single targets. AOE deaths are represented by one pack total.
+  if (element !== 2 && !(element === 1 && killed && knock >= 9))
+    view.numbers.add(
+      h.x[i],
+      h.type[i] === 2 ? 3.6 : 2.1,
+      h.z[i],
+      amount,
+      kind,
+      i + 2048 * h.generation[i],
+    );
+};
 h.onHit = (i, e) => {
-  if (Math.random() < 0.35)
-    view.fx.burst(h.x[i], 0.8, h.z[i], 2, e === 1 ? 0x8befff : 0xc3a56b, 1.5);
+  if (!view.feedbackVisible(h.x[i], 1.1, h.z[i], 1)) return;
+  view.fx.burst(
+    h.x[i],
+    1.1,
+    h.z[i],
+    e === 1 ? 4 : 3,
+    e === 1 ? 0x8befff : 0xffd478,
+    e === 1 ? 2.5 : 1.8,
+  );
 };
 let paused = false,
+  graphicsLost = false,
+  automaticReset = false,
   frames = [],
   simTimes = [],
   renderTimes = [],
@@ -24,18 +58,75 @@ let paused = false,
   ui = 0,
   comboTimer = 0,
   comboCount = 0,
-  elapsed = 0;
-combat.onPack = (n) => {
-  if (n < 5 || (comboTimer > 0 && n < comboCount)) return;
+  elapsed = 0,
+  toastTime = 0,
+  streakUi = -1,
+  surgeToast = 0;
+combat.onPack = (n, x = 0, z = 0, kind = "pack") => {
+  if (automaticReset) return;
+  if (n < 3 || (kind !== "surge" && surgeToast > 0)) return;
+  if (kind === "surge") {
+    surgeToast = 1.25;
+    view.numbers.clearPacks();
+  }
+  view.numbers.add(x, kind === "surge" ? 8 : 2.8, z, n, kind);
+  if (n < 8 || (comboTimer > 0 && n < comboCount)) return;
   comboCount = n;
   if (n >= 20) siegeAudio.play("pack");
   $("#combo span").textContent = n;
-  $("#combo").classList.add("show");
-  comboTimer = n >= 100 ? 1.8 : 1.2;
+  $("#combo small").textContent =
+    kind === "surge" ? "SURGE CLEAR" : "MULTI-KILL";
+  $("#combo").classList.remove("pop");
+  void $("#combo").offsetWidth;
+  $("#combo").classList.add("show", "pop");
+  comboTimer = n >= 100 ? 1.6 : 1.1;
 };
+streak.onMilestone = (tier, count) => {
+  $("#streak-title").textContent = tier.label;
+  $("#streak").dataset.tier = tier.color;
+  $("#streak").classList.remove("milestone");
+  void $("#streak").offsetWidth;
+  $("#streak").classList.add("milestone");
+  siegeAudio.play("pack");
+};
+streak.onEnd = (count) => {
+  if (count < 10) return;
+  $("#streak-title").textContent = "CHAIN COMPLETE";
+  $("#streak-count").textContent =
+    count < 10000 ? count : `${(count / 1000).toFixed(1)}K`;
+  toastTime = 1.3;
+};
+function updateStreak(dt) {
+  streak.update(dt);
+  surgeToast = Math.max(0, surgeToast - dt);
+  toastTime = Math.max(0, toastTime - dt);
+  $("#streak").classList.toggle("active", streak.count >= 3 || toastTime > 0);
+  if (streak.revision !== streakUi) {
+    streakUi = streak.revision;
+    $("#streak").dataset.long = String(streak.count >= 10000);
+    $("#kills").textContent = h.kills.toLocaleString();
+    if (streak.count > 0) {
+      $("#streak-count").textContent =
+        streak.count < 10000
+          ? streak.count
+          : `${(streak.count / 1000).toFixed(1)}K`;
+      $("#streak-count").title = String(streak.count);
+      if (streak.tier === 0) {
+        $("#streak-title").textContent = "KILL CHAIN";
+        $("#streak").dataset.tier = "mint";
+      }
+    }
+    $("#streak-best").textContent =
+      streak.count >= streak.best && streak.count >= 25
+        ? "NEW BEST"
+        : `BEST ${streak.best < 10000 ? streak.best : (streak.best / 1000).toFixed(1) + "K"}`;
+  }
+  $("#streak-meter").style.transform =
+    `scaleX(${streak.remaining / streak.window})`;
+}
 function pause(p) {
   paused = p;
-  siegeAudio.setBlocked(p || document.hidden);
+  siegeAudio.setBlocked(p || document.hidden || graphicsLost);
   $("#paused").hidden = !p;
   $("#pause").textContent = p ? "▶" : "Ⅱ";
 }
@@ -43,9 +134,15 @@ $("#pause").onclick = () => pause(!paused);
 $("#resume").onclick = () => pause(false);
 $("#overcharge").onclick = () => combat.overcharge();
 addEventListener("keydown", (e) => {
-  if (e.code === "Space" && !(e.target instanceof HTMLInputElement)) {
+  if (
+    e.code === "Space" &&
+    !(
+      e.target instanceof Element &&
+      e.target.closest("input, select, textarea, button, [contenteditable]")
+    )
+  ) {
     e.preventDefault();
-    if (!paused) combat.overcharge();
+    if (!paused && !graphicsLost) combat.overcharge();
   }
   if (e.code === "Escape") pause(!paused);
 });
@@ -83,6 +180,21 @@ $("#pixel-toggle").onchange = (e) => {
   view.pixelFilter = e.target.checked;
   view.resize();
 };
+$("#lights-toggle").onchange = (e) => {
+  view.lighting.enabled = e.target.checked;
+  view.update(0);
+  view.render();
+};
+$("#bars-mode").onchange = (e) => {
+  view.healthBars.mode = e.target.value;
+  view.update(0);
+  view.render();
+};
+$("#numbers-toggle").onchange = (e) => {
+  view.numbers.enabled = e.target.checked;
+  view.update(0);
+  view.render();
+};
 $("#stats-toggle").onchange = (e) =>
   ($("#performance").hidden = !e.target.checked);
 $("#shake-toggle").checked = view.shakeEnabled;
@@ -96,7 +208,7 @@ $("#zoom-out").onclick = () => {
   view.resize();
 };
 $("#battlefield").addEventListener("pointerdown", (e) => {
-  if (paused) return;
+  if (paused || graphicsLost) return;
   const p = view.point(e.clientX, e.clientY);
   if (p) {
     combat.focus = { x: p.x, z: p.z };
@@ -111,9 +223,31 @@ $("#battlefield").addEventListener("pointerdown", (e) => {
     m.classList.add("show");
   }
 });
-new ResizeObserver(() => view.resize()).observe($("#game-shell"));
+function feedbackInsets() {
+  const canvas = view.canvas.getBoundingClientRect(),
+    footer = $("footer").getBoundingClientRect();
+  view.numbers.safeTop = $("#combo").offsetTop + $("#combo").offsetHeight + 8;
+  view.numbers.safeBottom = canvas.bottom - footer.top + 8;
+}
+new ResizeObserver(() => {
+  view.resize();
+  feedbackInsets();
+}).observe($("#game-shell"));
+document.fonts.ready.then(feedbackInsets);
 document.addEventListener("visibilitychange", () => {
   last = performance.now();
+  siegeAudio.setBlocked(paused || document.hidden || graphicsLost);
+});
+view.canvas.addEventListener("webglcontextlost", () => {
+  graphicsLost = true;
+  $("#graphics-restoring").hidden = false;
+  siegeAudio.setBlocked(true);
+});
+view.canvas.addEventListener("webglcontextrestored", () => {
+  view.resize();
+  graphicsLost = false;
+  last = performance.now();
+  $("#graphics-restoring").hidden = true;
   siegeAudio.setBlocked(paused || document.hidden);
 });
 // Silent until an explicit click. Volume preferences persist, autoplay consent does not.
@@ -173,6 +307,16 @@ function metrics() {
     alive: h.alive,
     visible: view.visible,
     rendered: view.units.reduce((n, u) => n + u.mesh.count, 0),
+    wallStrikes: view.bastionFeedback.strikes,
+    wallAttackers: view.bastionFeedback.attackers,
+    electrified: view.shockArcs.count,
+    hitSparks: view.hitSparks.events.length,
+    lightEvents: view.lighting.events.length,
+    healthBars: view.healthBars.geo.instanceCount,
+    damageLabels: view.numbers.events.length,
+    damageGlyphs: view.numbers.geo.instanceCount,
+    streak: streak.count,
+    bestStreak: streak.best,
     impactFlashes: view.impacts.blasts.length,
     muzzleFlashes: view.impacts.muzzles.length,
     target: h.target,
@@ -198,6 +342,7 @@ window.__lab = {
   view,
   combat,
   audio: siegeAudio,
+  streak,
   metrics,
   pause,
   setDensity: (n) => h.fill(n),
@@ -209,6 +354,7 @@ window.__lab = {
   step: (dt = 1 / 60) => {
     h.step(dt);
     combat.step(dt);
+    updateStreak(dt);
     view.update(dt);
     view.render();
   },
@@ -218,7 +364,7 @@ function frame(now) {
   // A first rAF timestamp can precede script initialization after shader compilation.
   const raw = Math.max(0, now - last);
   last = now;
-  if (document.hidden) return;
+  if (document.hidden || graphicsLost) return;
   // Some browsers/emulation change DPR without resize or media-query events.
   if (view.displayDpr !== devicePixelRatio) view.resize();
   const dt = Math.min(raw / 1000, 0.04);
@@ -227,15 +373,25 @@ function frame(now) {
     const t = performance.now();
     h.step(dt);
     combat.step(dt);
+    updateStreak(dt);
     siegeAudio.update(dt, h, combat.cooldown);
     if (h.health <= 0) {
+      automaticReset = true;
       combat.cooldown = 0;
       combat.overcharge();
+      automaticReset = false;
       h.health = 100;
+      streak.reset();
+      toastTime = 0;
+      comboTimer = comboCount = surgeToast = 0;
+      view.numbers.events.length = 0;
+      $("#combo").classList.remove("show", "pop");
+      $("#streak").classList.remove("active", "milestone");
+      $("#streak").dataset.tier = "mint";
       $("#announcement small").textContent = "VISUAL LAB · AUTOMATIC RESET";
       $("#announcement strong").textContent = "A NEW LAST STAND";
       $("#announcement").style.opacity = 1;
-      elapsed = 0;
+      ((elapsed = 0), (toastTime = 0), (streakUi = -1));
     }
     const s = performance.now();
     view.update(dt);
@@ -259,7 +415,23 @@ function frame(now) {
     $("#kills").textContent = h.kills.toLocaleString();
     $("#health").style.width = h.health + "%";
     $("#health-label").textContent = Math.ceil(h.health) + "%";
+    $(".defense").dataset.state =
+      h.health < 30 ? "critical" : h.health < 60 ? "damaged" : "healthy";
+    $("#danger-vignette").style.opacity = String(
+      Math.max(0, (45 - h.health) / 45) * 0.3,
+    );
+    $("#bastion-label").textContent =
+      h.health < 30
+        ? "CRITICAL"
+        : view.bastionFeedback.attackers > 15
+          ? "UNDER SIEGE"
+          : "BASTION";
     $("#overcharge").disabled = combat.cooldown > 0;
+    $("#overcharge").style.setProperty(
+      "--charge",
+      `${(1 - combat.cooldown / 12) * 100}%`,
+    );
+    $("#overcharge").classList.toggle("is-ready", combat.cooldown === 0);
     $("#charge-label").textContent =
       combat.cooldown > 0
         ? `RECHARGING · ${Math.ceil(combat.cooldown)}s`

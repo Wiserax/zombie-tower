@@ -10,6 +10,8 @@ A stationary, industrial fortress holds off a dense animated zombie horde. This 
 - **Overcharge** (or Space) clears a large area with chained electrical impacts.
 - Toggle gun/crossbow, Tesla, and mortar batteries to compare their effects.
 - Open **Scene** to compare **Retro / Original** visuals, change crowd density (300–1,600), zoom, screen shake, and performance counters.
+- Wounded zombies show health bars and a delayed damage trail. Scene can show all bars or hide them, disable damage numbers, or switch off reactive lighting.
+- Consecutive kills build a timed **kill chain**. The draining meter shows the remaining gap before the chain ends. Pack totals and streaks count real kills; they do not grant a damage multiplier.
 - Sound starts **off**. Tap ♪ for the new siege soundtrack and sound mix. Scene has separate music, effects, and ambience sliders. Pause is available at the upper right.
 - If the bastion falls, the visual lab automatically starts another last stand.
 
@@ -33,12 +35,18 @@ node scripts/verify-browser.mjs
 node scripts/verify-portrait.mjs
 node scripts/verify-graphics.mjs
 node scripts/verify-audio.mjs
-node scripts/soak-graphics.mjs
+node scripts/verify-feedback.mjs
+node scripts/verify-feedback-lifecycle.mjs
+node scripts/profile-feedback.mjs
+SOAK_ENGINE=webkit SOAK_SECONDS=1200 node scripts/soak-feedback.mjs
+SOAK_ENGINE=chrome SOAK_SECONDS=600 node scripts/soak-feedback.mjs
 ```
 
-The browser verifier uses an installed Chrome, runs desktop and portrait emulation, exercises pause/overcharge/settings, captures screenshots, and writes `qa/performance.json`. Set `BASE_URL` to test a deployed build. The graphics verifier additionally uses installed Playwright WebKit (`npx playwright install webkit`). The graphics soak runs for ten minutes at 1,600 target density and records the runtime bundle hash. Physical-phone performance remains a separate test.
+Serve `dist/` at port 5197 for the feedback checks. The browser verifier uses installed Chrome, runs desktop and portrait emulation, exercises pause/overcharge/settings, captures screenshots, and writes `qa/performance.json`. Set `BASE_URL` to test another build (the audio verifier uses `TEST_URL`). The graphics and feedback verifiers also use installed Playwright WebKit (`npx playwright install webkit`). The feedback soak runs at 1,600 target density, repeatedly changes settings, and records the runtime bundle hash. The profiler uses GPU timer queries when supported; CPU throttling is explicitly separate from a physical-phone benchmark.
 
-Desktop uses a portrait phone frame; mobile portrait fills the screen. Version **0.3.0** adds a sharp retro battlefield (coarse pixel rendering is optional), chunky zombie silhouettes and a cooler emerald palette. UI remains sharp. This release also replaces the old tones with a complete sample-based sound mix and adaptive original score. See the [visual study](docs/retro-visual-study.md) and [sound design](docs/sound-design.md).
+Desktop uses a portrait phone frame; mobile portrait fills the screen. Version **0.4.0** adds damaged-enemy HP bars, damage and pack numbers, kill streaks, warm/cold impact lighting, electrical crackle, moving bolts and shells, recoil, and more readable falling bodies. The HUD remains compact, including in short windows. Reduced-motion preferences disable camera shake and UI flourish. A lost graphics context pauses the siege and recovers it without advancing unseen combat.
+
+The sharp retro scene and sample-based adaptive score from 0.3 remain. Coarse pixel rendering is optional; the UI stays sharp. See the [combat feedback design](docs/combat-feel-pass.md), [visual study](docs/retro-visual-study.md), and [sound design](docs/sound-design.md).
 
 ## Implementation
 

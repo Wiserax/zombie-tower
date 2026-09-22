@@ -14,6 +14,9 @@ export class Horde {
     this.x = new Float32Array(CAP);
     this.z = new Float32Array(CAP);
     this.hp = new Float32Array(CAP);
+    this.maxHp = new Float32Array(CAP);
+    this.generation = new Uint32Array(CAP);
+    this.element = new Uint8Array(CAP);
     this.type = new Uint8Array(CAP);
     this.phase = new Float32Array(CAP);
     this.hit = new Float32Array(CAP);
@@ -26,6 +29,7 @@ export class Horde {
     this.obstacleCells = Array.from({ length: 2500 }, () => []);
     this.free = Array.from({ length: CAP }, (_, i) => CAP - 1 - i);
     this.onDeath = () => {};
+    this.onDamage = () => {};
     this.onHit = () => {};
     this.spawnBudget = 0;
     this.neighborChecks = 0;
@@ -70,7 +74,9 @@ export class Horde {
     this.z[i] = Math.cos(a) * r;
     const roll = this.random();
     this.type[i] = roll > 0.94 ? 2 : roll > 0.75 ? 1 : 0;
-    this.hp[i] = [42, 24, 210][this.type[i]];
+    this.hp[i] = this.maxHp[i] = [42, 24, 210][this.type[i]];
+    this.generation[i]++;
+    this.element[i] = 0;
     this.phase[i] = this.random() * TAU;
     this.angle[i] = Math.atan2(-this.x[i], -this.z[i]);
     this.vx[i] = this.vz[i] = this.hit[i] = this.slow[i] = 0;
@@ -177,19 +183,22 @@ export class Horde {
         this.angle[i] = Math.atan2(-nx, -nz);
         this.vx[i] *= Math.exp(-dt * 5);
         this.vz[i] *= Math.exp(-dt * 5);
-        this.hit[i] = Math.max(0, this.hit[i] - dt * 4);
+        this.hit[i] = Math.max(0, this.hit[i] - dt * 9);
         this.slow[i] = Math.max(0, this.slow[i] - dt);
       }
     this.health = Math.max(0, Math.min(100, this.health + dt * 0.75));
   }
   damage(i, amount, knock = 0, element = 0) {
     if (i < 0 || this.hp[i] <= 0) return false;
+    const applied = Math.min(this.hp[i], amount);
     this.hp[i] -= amount;
+    this.element[i] = element;
     this.hit[i] = 1;
     const r = Math.hypot(this.x[i], this.z[i]) || 1;
     this.vx[i] += (this.x[i] / r) * knock;
     this.vz[i] += (this.z[i] / r) * knock;
     if (element === 1) this.slow[i] = 0.55;
+    this.onDamage(i, element, applied, this.hp[i] <= 0, knock);
     if (this.hp[i] <= 0) {
       this.hp[i] = 0;
       this.alive--;

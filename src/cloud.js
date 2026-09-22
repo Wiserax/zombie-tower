@@ -81,9 +81,13 @@ export class Cloud {
       p.x += p.vx * dt;
       p.y += p.vy * dt;
       p.z += p.vz * dt;
-      this.pos.set([p.x, p.y, p.z], n * 3);
+      this.pos[n * 3] = p.x;
+      this.pos[n * 3 + 1] = p.y;
+      this.pos[n * 3 + 2] = p.z;
       this.c.setHex(p.color);
-      this.colors.set([this.c.r, this.c.g, this.c.b], n * 3);
+      this.colors[n * 3] = this.c.r;
+      this.colors[n * 3 + 1] = this.c.g;
+      this.colors[n * 3 + 2] = this.c.b;
       this.sizes[n] = p.size * (1 + f * p.growth);
       this.alphas[n] =
         p.opacity * Math.min(1, f * 12) * Math.min(1, (1 - f) * 3);

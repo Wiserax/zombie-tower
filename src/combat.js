@@ -3,6 +3,7 @@ export class Combat {
     this.h = horde;
     this.v = view;
     this.fx = view.fx;
+    view.weaponFX.combat = this;
     this.enabled = { guns: true, tesla: true, mortar: true };
     this.clocks = [0, 0.06, 1, 1.8];
     this.tesla = 0.8;
@@ -25,6 +26,7 @@ export class Combat {
         this.h.z[i] - b.position.z,
       );
       b.rotation.y = a;
+      b.userData.kick = 1;
       this.onSound("ballista", 0.3, b.position.x);
       for (const offset of [-0.11, 0, 0.11])
         this.bolts.push({
@@ -62,8 +64,22 @@ export class Combat {
     ];
     this.v.impacts.muzzle(...s, a);
     this.v.recoil[t] = 1;
-    this.fx.line(s, [x, 0.9, z], 0xffe3a0, 0.075);
+    this.v.lighting.flash(s[0], s[2], "gun");
+    this.fx.line(s, [x, 0.9, z], 0xffbb55, 0.085, 0.045);
+    this.fx.line(s, [x, 0.9, z], 0xffffd4, 0.045, 0.014);
     this.fx.burst(...s, 3, 0xffd77e, 1.5);
+    // Brass ejects sideways from the receiver, separate from the forward muzzle flash.
+    this.fx.particle(
+      gun.position.x,
+      2.6,
+      gun.position.z,
+      Math.cos(a) * 2.2,
+      1.7,
+      -Math.sin(a) * 2.2,
+      0.065,
+      0xe1b15c,
+      0.65,
+    );
     this.fx.glow.emit(...s, 0.85, 0xffbf48, 0.12, 0, 0, 0, 1, 0);
     h.damage(i, 17, 0.4, 0);
     this.onSound("gun", 0.12, gun.position.x);
@@ -100,6 +116,7 @@ export class Combat {
     let i = this.target(25);
     if (i < 0) return;
     this.v.energy = 1;
+    this.v.lighting.flash(h.x[i], h.z[i], "electric");
     let from = [0, 7.1, 0];
     const seen = new Set();
     for (let k = 0; k < 13 && i >= 0; k++) {
@@ -126,11 +143,12 @@ export class Combat {
     const n = this.h.blast(x, z, 4.3, 135);
     this.fx.explosion(x, z, 4.8);
     this.v.impacts.explosion(x, z, 4.8);
-    this.v.shake = 0.8;
+    this.v.shake = Math.max(this.v.shake, 0.8);
+    this.v.lighting.flash(x, z, "shell");
     this.onSound("boom", 0.6, x);
     if (n >= 5) {
       this.lastPack = n;
-      this.onPack(n);
+      this.onPack(n, x, z, "pack");
     }
     return n;
   }
@@ -138,17 +156,34 @@ export class Combat {
     if (this.cooldown > 0) return false;
     this.cooldown = 12;
     this.v.energy = 1.8;
+    this.v.weaponFX.discharge();
+    this.v.lighting.flash(0, 0, "surge");
     this.fx.ring(0, 0, 25, 0x93e9ff, 1.15);
     let n = 0;
+    // One visible arc per angular sector: damage still reaches every enemy.
+    // This keeps a 1,600-unit discharge readable instead of a solid white web.
+    const arcs = new Array(12),
+      distances = new Float32Array(12);
     for (let i = 0; i < this.h.hp.length; i++)
       if (this.h.hp[i] > 0 && Math.hypot(this.h.x[i], this.h.z[i]) < 23) {
-        if (i % 7 === 0)
-          this.fx.lightning([0, 7.1, 0], [this.h.x[i], 1, this.h.z[i]]);
+        const x = this.h.x[i],
+          z = this.h.z[i],
+          d = x * x + z * z;
+        const sector = Math.min(
+          11,
+          Math.floor(((Math.atan2(z, x) + Math.PI) / (Math.PI * 2)) * 12),
+        );
+        if (d > distances[sector]) {
+          distances[sector] = d;
+          arcs[sector] = [x, 1, z];
+        }
         n += this.h.damage(i, 190, 9, 1) ? 1 : 0;
       }
+    for (const target of arcs)
+      if (target) this.fx.lightning([0, 7.1, 0], target);
     this.v.shake = 1.5;
     this.lastPack = n;
-    this.onPack(n);
+    this.onPack(n, 0, 0, "surge");
     this.onSound("overcharge", 1);
     return true;
   }
@@ -186,7 +221,8 @@ export class Combat {
         [b.x - b.dx * 1.1, b.y, b.z - b.dz * 1.1],
         [b.x, b.y, b.z],
         0xe5d5a1,
-        0.065,
+        0.06,
+        0.035,
       );
       const i = this.h.nearest(b.x, b.z, 0.7);
       if (i >= 0 && !b.seen.has(i)) {

@@ -21,6 +21,7 @@
         aria-label="Live 3D zombie siege battlefield"
       ></canvas>
       <div class="vignette"></div>
+      <div id="danger-vignette" aria-hidden="true"></div>
       <div id="loading">
         <strong>DEADWOOD</strong
         ><span>Preparing the last line of defense…</span>
@@ -62,13 +63,41 @@
       <div id="announcement" aria-live="polite">
         <small>HOLD THE LINE</small><strong>THE HORDE IS COMING</strong>
       </div>
+      <div id="streak" data-tier="mint" aria-label="Kill chain">
+        <div class="streak-emblem" aria-hidden="true">
+          <svg viewBox="0 0 36 42">
+            <path
+              fill="currentColor"
+              stroke="#152425"
+              stroke-width="2"
+              d="M18 2c5 8 1 10 6 15l3-7c3 7 8 13 6 20-2 8-8 11-16 10C7 39 2 34 3 27c1-7 7-12 9-17l2 10c4-6 0-11 4-18Z"
+            />
+            <path
+              fill="#fff3ce"
+              d="M12 26c0-5 3-7 7-7s7 3 7 7l-2 6-3 1v4h-7v-4l-2-2Z"
+            />
+            <path
+              fill="#27312b"
+              d="m13 25 5 1-2 4h-3Zm8 1 4-1v5h-3Zm-3 4 2 3h-3Z"
+            />
+          </svg>
+        </div>
+        <div class="streak-info">
+          <small id="streak-title">KILL CHAIN</small>
+          <div>
+            <strong id="streak-count">0</strong><span>STREAK</span
+            ><small id="streak-best">BEST 0</small>
+          </div>
+          <div class="streak-track"><i id="streak-meter"></i></div>
+        </div>
+      </div>
       <div id="combo">
         <small>PACK CLEARED</small><strong>+<span>0</span></strong>
       </div>
       <div id="focus-marker"></div>
       <footer>
         <div class="defense">
-          <span>BASTION</span>
+          <span id="bastion-label">BASTION</span>
           <div class="health-track"><i id="health"></i></div>
           <strong id="health-label">100%</strong>
         </div>
@@ -98,12 +127,12 @@
         <div class="bottom-row">
           <button id="settings-toggle">⚙ <span>SCENE</span></button
           ><span class="hint">Tap the horde to focus fire</span
-          ><span class="build-label">VISUAL LAB · 0.3</span>
+          ><span class="build-label">VISUAL LAB · 0.4</span>
         </div>
       </footer>
       <section id="settings" hidden>
         <div class="panel-title">
-          <h2>Battlefield lab</h2>
+          <h2>Battlefield lab <small class="version">0.4.0</small></h2>
           <button id="close-settings" aria-label="Close settings">×</button>
         </div>
         <p>Visual style</p>
@@ -116,6 +145,22 @@
         <label
           ><input id="pixel-toggle" type="checkbox" /> Coarse pixel
           filter</label
+        >
+        <label for="bars-mode"
+          >Enemy health
+          <select id="bars-mode">
+            <option value="damaged">On damage</option>
+            <option value="all">Always</option>
+            <option value="off">Off</option>
+          </select></label
+        >
+        <label
+          ><input id="numbers-toggle" type="checkbox" checked /> Damage
+          numbers</label
+        >
+        <label
+          ><input id="lights-toggle" type="checkbox" checked /> Reactive
+          lighting</label
         >
         <p>Live horde size</p>
         <div class="density">
@@ -163,6 +208,10 @@
         </p>
       </section>
       <div id="performance" hidden></div>
+      <div id="graphics-restoring" role="status" hidden>
+        <strong>RESTORING SCENE</strong
+        ><span>Your siege is paused for a moment.</span>
+      </div>
       <div id="paused" hidden>
         <strong>BATTLE PAUSED</strong><button id="resume">RESUME</button>
       </div>

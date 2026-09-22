@@ -1,6 +1,8 @@
 import * as T from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { Cloud } from "./cloud.js";
+const LINE_END = [0, 0, 1, 1, 0, 1],
+  LINE_SIGN = [1, -1, 1, 1, -1, -1];
 const N = 2400,
   dummy = new T.Object3D(),
   col = new T.Color();
@@ -271,19 +273,16 @@ export class Effects {
       nx *= inv;
       ny *= inv;
       nz *= inv;
-      for (const [p, sign] of [
-        [l.a, 1],
-        [l.a, -1],
-        [l.b, 1],
-        [l.b, 1],
-        [l.a, -1],
-        [l.b, -1],
-      ]) {
-        this.linePos.set(
-          [p[0] + nx * sign, p[1] + ny * sign, p[2] + nz * sign],
-          v * 3,
-        );
-        this.lineCol.set([col.r, col.g, col.b], v * 3);
+      for (let j = 0; j < 6; j++) {
+        const p = LINE_END[j] ? l.b : l.a,
+          sign = LINE_SIGN[j],
+          offset = v * 3;
+        this.linePos[offset] = p[0] + nx * sign;
+        this.linePos[offset + 1] = p[1] + ny * sign;
+        this.linePos[offset + 2] = p[2] + nz * sign;
+        this.lineCol[offset] = col.r;
+        this.lineCol[offset + 1] = col.g;
+        this.lineCol[offset + 2] = col.b;
         v++;
       }
     }
